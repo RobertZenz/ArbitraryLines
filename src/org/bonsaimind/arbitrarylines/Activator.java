@@ -13,49 +13,45 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * The activator.
  */
 public class Activator extends AbstractUIPlugin {
-	
-	// The plug-in ID
+	/** The Plugin ID. */
 	public static final String PLUGIN_ID = "ArbitraryLines";
 	
-	// The shared instance
+	/** The instance of the Plugin. */
 	private static Activator plugin;
 	
 	/**
-	 * The constructor
+	 * Creates a new instance of {@link Activator}.
 	 */
 	public Activator() {
 	}
 	
 	/**
-	 * Returns the shared instance
+	 * Returns the shared instance.
 	 *
-	 * @return the shared instance
+	 * @return The shared instance.
 	 */
 	public static Activator getDefault() {
 		return plugin;
 	}
 	
-	/* (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
-	 * BundleContext) */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 	}
 	
-	/* (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.
-	 * BundleContext) */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}
-	
 }

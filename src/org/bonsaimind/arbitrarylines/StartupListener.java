@@ -12,15 +12,23 @@ package org.bonsaimind.arbitrarylines;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * The {@link StartupListener} is called when Eclipse starts and does kickoff
+ * the registering process if all the needed listeners.
+ */
 public class StartupListener implements IStartup {
-	
+	/**
+	 * Creates a new instance of {@link StartupListener}.
+	 */
 	public StartupListener() {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void earlyStartup() {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new ListenerRegisteringRunnable());
 	}
-	
 }

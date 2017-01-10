@@ -13,13 +13,27 @@ import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
+/**
+ * The {@link ListenerRegisteringWindowListener} is adding listeners to all
+ * parts.
+ */
 public class ListenerRegisteringWindowListener implements IWindowListener {
+	/** The shared instance which should be used whenever possible. */
 	public static final ListenerRegisteringWindowListener INSTANCE = new ListenerRegisteringWindowListener();
 	
+	/**
+	 * Creates a new instance of {@link ListenerRegisteringWindowListener}.
+	 */
 	public ListenerRegisteringWindowListener() {
 		super();
 	}
 	
+	/**
+	 * Registers the listeners on the given {@link IWorkbenchWindow}.
+	 * 
+	 * @param workbenchWindow The {@link IWorkbenchWindow} on which to register
+	 *        the listeners.
+	 */
 	public static final void registerListener(IWorkbenchWindow workbenchWindow) {
 		if (workbenchWindow != null) {
 			for (IWorkbenchPage workbenchPage : workbenchWindow.getPages()) {
@@ -30,21 +44,33 @@ public class ListenerRegisteringWindowListener implements IWindowListener {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowActivated(IWorkbenchWindow window) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowClosed(IWorkbenchWindow window) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowDeactivated(IWorkbenchWindow window) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowOpened(IWorkbenchWindow window) {
 		registerListener(window);

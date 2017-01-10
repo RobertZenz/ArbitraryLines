@@ -12,12 +12,20 @@ package org.bonsaimind.arbitrarylines;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * The {@link ListenerRegisteringRunnable} is adding listeners to all windows.
+ */
 public class ListenerRegisteringRunnable implements Runnable {
-	
+	/**
+	 * Creates a new instance of {@link ListenerRegisteringRunnable}.
+	 */
 	public ListenerRegisteringRunnable() {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void run() {
 		for (IWorkbenchWindow workbenchWindow : PlatformUI.getWorkbench().getWorkbenchWindows()) {

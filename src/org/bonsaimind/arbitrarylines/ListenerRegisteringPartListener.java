@@ -1,5 +1,3 @@
-
-package org.bonsaimind.arbitrarylines;
 /*
  * Copyright (c) 2017 Robert 'Bobby' Zenz
  * 
@@ -8,6 +6,8 @@ package org.bonsaimind.arbitrarylines;
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
+
+package org.bonsaimind.arbitrarylines;
 
 import java.lang.reflect.Method;
 
@@ -19,14 +19,31 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
+/**
+ * The {@link ListenerRegisteringPartListener} is adding listeners to all parts.
+ */
 public class ListenerRegisteringPartListener implements IPartListener2 {
+	/** The shared instance which should be used whenever possible. */
 	public static final ListenerRegisteringPartListener INSTANCE = new ListenerRegisteringPartListener();
+	/**
+	 * The cached {@link Method} {@code getSourceViewer} of
+	 * {@link AbstractTextEditor}.
+	 */
 	private static Method getSourceViewerMethod = null;
 	
+	/**
+	 * Creates a new instance of {@link ListenerRegisteringPartListener}.
+	 */
 	public ListenerRegisteringPartListener() {
 		super();
 	}
 	
+	/**
+	 * Registers the listeners on the given {@link IWorkbenchPartReference}.
+	 * 
+	 * @param partRef The {@link IWorkbenchPartReference} on which to register
+	 *        the listeners.
+	 */
 	public static void registerListener(IWorkbenchPartReference partRef) {
 		if (partRef != null) {
 			IWorkbenchPart part = partRef.getPart(false);
@@ -42,9 +59,21 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 		}
 	}
 	
+	/**
+	 * Gets the {@link ITextViewer} from the given {@link AbstractTextEditor}.
+	 * 
+	 * @param textEditor The {@link AbstractTextEditor} from which to get the
+	 *        {@link ITextViewer}.
+	 * @return The {@link ITextViewer}. {@code null} if it could not be
+	 *         returned.
+	 */
 	private static final ITextViewer getTextViewer(AbstractTextEditor textEditor) {
+		if (textEditor != null) {
+			return null;
+		}
+		
 		if (getSourceViewerMethod == null) {
-			if (!initAccess()) {
+			if (!initGetSourceViewerMethod()) {
 				return null;
 			}
 		}
@@ -62,7 +91,12 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 		return null;
 	}
 	
-	private static final boolean initAccess() {
+	/**
+	 * Initializes the {@link #getSourceViewerMethod}.
+	 * 
+	 * @return {@code true} if it was successfully initialized.
+	 */
+	private static final boolean initGetSourceViewerMethod() {
 		try {
 			Method method = AbstractTextEditor.class.getDeclaredMethod("getSourceViewer");
 			method.setAccessible(true);
@@ -77,41 +111,65 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partActivated(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partBroughtToTop(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partClosed(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partDeactivated(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partHidden(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partInputChanged(IWorkbenchPartReference partRef) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partOpened(IWorkbenchPartReference partRef) {
 		registerListener(partRef);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void partVisible(IWorkbenchPartReference partRef) {
 		// Nothing to do.

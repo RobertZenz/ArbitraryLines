@@ -13,13 +13,26 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IWorkbenchPage;
 
+/**
+ * The {@link ListenerRegisteringPageListener} is adding listeners to all pages.
+ */
 public class ListenerRegisteringPageListener implements IPageListener {
+	/** The shared instance which should be used whenever possible. */
 	public static final ListenerRegisteringPageListener INSTANCE = new ListenerRegisteringPageListener();
 	
+	/**
+	 * Creates a new instance of {@link ListenerRegisteringPageListener}.
+	 */
 	public ListenerRegisteringPageListener() {
 		super();
 	}
 	
+	/**
+	 * Registers the listeners on the given {@link IWorkbenchPage}.
+	 * 
+	 * @param workbenchPage The {@link IWorkbenchPage} on which to register the
+	 *        listeners.
+	 */
 	public static void registerListener(IWorkbenchPage workbenchPage) {
 		if (workbenchPage != null) {
 			for (IEditorReference editorReference : workbenchPage.getEditorReferences()) {
@@ -30,19 +43,27 @@ public class ListenerRegisteringPageListener implements IPageListener {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void pageActivated(IWorkbenchPage page) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void pageClosed(IWorkbenchPage page) {
 		// Nothing to do.
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void pageOpened(IWorkbenchPage page) {
 		registerListener(page);
 	}
-	
 }
