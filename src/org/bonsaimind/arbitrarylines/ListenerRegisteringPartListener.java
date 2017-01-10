@@ -68,7 +68,7 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 	 *         returned.
 	 */
 	private static final ITextViewer getTextViewer(AbstractTextEditor textEditor) {
-		if (textEditor != null) {
+		if (textEditor == null) {
 			return null;
 		}
 		
