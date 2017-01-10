@@ -12,6 +12,7 @@ package org.bonsaimind.arbitrarylines;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * The {@link LinePainter} is the main class which does paint the lines.
@@ -34,6 +35,21 @@ public class LinePainter implements PaintListener {
 	public void paintControl(PaintEvent event) {
 		if (event.getSource() instanceof StyledText) {
 			StyledText styledText = (StyledText)event.getSource();
+			
+			int charWidth = event.gc.getAdvanceWidth('B');
+			int linePosition = charWidth * 80;
+			
+			Rectangle clipping = event.gc.getClipping();
+			
+			if ((styledText.getHorizontalPixel() + clipping.x) <= linePosition
+					&& (styledText.getHorizontalPixel() + clipping.x + clipping.width) >= linePosition) {
+				
+				event.gc.drawLine(
+						linePosition - styledText.getHorizontalPixel(),
+						clipping.y,
+						linePosition - styledText.getHorizontalPixel(),
+						clipping.y + clipping.height);
+			}
 			
 			// TODO Draw the lines here.
 		}
