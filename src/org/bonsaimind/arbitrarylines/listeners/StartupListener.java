@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines;
+package org.bonsaimind.arbitrarylines.listeners;
 
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.PlatformUI;

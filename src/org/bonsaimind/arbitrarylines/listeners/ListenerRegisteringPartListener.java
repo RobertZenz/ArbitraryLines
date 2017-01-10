@@ -7,10 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines;
+package org.bonsaimind.arbitrarylines.listeners;
 
 import java.lang.reflect.Method;
 
+import org.bonsaimind.arbitrarylines.Activator;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension2;
@@ -53,7 +54,7 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 				ITextViewer textViewer = getTextViewer(textEditor);
 				
 				if (textViewer != null) {
-					textViewer.getTextWidget().addPaintListener(LinePainter.INSTANCE);
+					textViewer.getTextWidget().addPaintListener(LinePaintingPaintListener.INSTANCE);
 				}
 			}
 		}

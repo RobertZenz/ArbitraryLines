@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines;
+package org.bonsaimind.arbitrarylines.listeners;
 
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.PaintEvent;
@@ -15,16 +15,16 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Rectangle;
 
 /**
- * The {@link LinePainter} is the main class which does paint the lines.
+ * The {@link LinePaintingPaintListener} is the main class which does paint the lines.
  */
-public class LinePainter implements PaintListener {
+public class LinePaintingPaintListener implements PaintListener {
 	/** The shared instance which should be used whenever possible. */
-	public static final LinePainter INSTANCE = new LinePainter();
+	public static final LinePaintingPaintListener INSTANCE = new LinePaintingPaintListener();
 	
 	/**
-	 * Creates a new instance of {@link LinePainter}.
+	 * Creates a new instance of {@link LinePaintingPaintListener}.
 	 */
-	public LinePainter() {
+	public LinePaintingPaintListener() {
 		super();
 	}
 	

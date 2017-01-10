@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="org.bonsaimind.arbitrarylines.StartupListener">
+            class="org.bonsaimind.arbitrarylines.listeners.StartupListener">
       </startup>
    </extension>
 
