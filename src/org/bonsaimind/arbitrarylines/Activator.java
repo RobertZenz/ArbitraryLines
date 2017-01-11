@@ -26,6 +26,7 @@ public class Activator extends AbstractUIPlugin {
 	 * Creates a new instance of {@link Activator}.
 	 */
 	public Activator() {
+		super();
 	}
 	
 	/**
