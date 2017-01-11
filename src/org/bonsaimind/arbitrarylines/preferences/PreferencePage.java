@@ -83,18 +83,9 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		table = new Table(grpLines, SWT.BORDER | SWT.SINGLE);
 		table.addMouseListener(new org.eclipse.swt.events.MouseListener() {
-			
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				if (table.getSelectionIndex() >= 0) {
-					TableItem selectedItem = table.getItem(table.getSelectionIndex());
-					LineEditingDialog dialog = new LineEditingDialog(getShell(), (Line)selectedItem.getData());
-					
-					if (dialog.open() == Dialog.OK) {
-						selectedItem.setData(dialog.getLine());
-						updateTableItem(selectedItem);
-					}
-				}
+				editCurrentSelection();
 			}
 			
 			@Override
@@ -184,6 +175,25 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 				}
 			}
 		});
+		
+		Button btnEdit = new Button(composite, SWT.NONE);
+		GridData gd_btnEdit = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_btnEdit.widthHint = 96;
+		gd_btnEdit.heightHint = 32;
+		btnEdit.setLayoutData(gd_btnEdit);
+		btnEdit.setText("Edit");
+		btnEdit.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do.
+			}
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				editCurrentSelection();
+			}
+		});
+		
 		updateValuesFromPreferences();
 		
 		return null;
@@ -195,6 +205,18 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		btnEnableArbitrarylines.setSelection(true);
 		updateTable(Arrays.asList(Preferences.DEFAULT_LINE));
+	}
+	
+	private void editCurrentSelection() {
+		if (table.getSelectionIndex() >= 0) {
+			TableItem selectedItem = table.getItem(table.getSelectionIndex());
+			LineEditingDialog dialog = new LineEditingDialog(getShell(), (Line)selectedItem.getData());
+			
+			if (dialog.open() == Dialog.OK) {
+				selectedItem.setData(dialog.getLine());
+				updateTableItem(selectedItem);
+			}
+		}
 	}
 	
 	private void updateTable(Iterable<Line> lines) {
