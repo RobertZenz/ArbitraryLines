@@ -9,6 +9,7 @@
 
 package org.bonsaimind.arbitrarylines;
 
+import org.bonsaimind.arbitrarylines.preferences.Preferences;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -21,6 +22,8 @@ public class Activator extends AbstractUIPlugin {
 	
 	/** The instance of the Plugin. */
 	private static Activator plugin;
+	
+	private Preferences preferences = null;
 	
 	/**
 	 * Creates a new instance of {@link Activator}.
@@ -36,6 +39,14 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	
+	public Preferences getPreferences() {
+		if (preferences == null) {
+			preferences = new Preferences(getPreferenceStore());
+		}
+		
+		return preferences;
 	}
 	
 	/**

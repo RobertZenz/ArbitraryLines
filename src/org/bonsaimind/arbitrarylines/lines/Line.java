@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public class Line {
 	private Color color = null;
+	private int colorAsInt = -1;
 	private Direction direction = null;
 	private int location = -1;
 	private LocationType locationType = null;
@@ -40,6 +41,7 @@ public class Line {
 		this.location = location;
 		this.thickness = thickness;
 		this.offset = offset;
+		this.colorAsInt = color;
 		this.color = new Color(
 				null,
 				(color >> 24) & 0xff,
@@ -50,6 +52,10 @@ public class Line {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public int getColorAsInt() {
+		return colorAsInt;
 	}
 	
 	public Direction getDirection() {

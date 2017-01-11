@@ -7,5 +7,13 @@
             class="org.bonsaimind.arbitrarylines.listeners.StartupListener">
       </startup>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.bonsaimind.arbitrarylines.preferences.PreferencePage"
+            id="org.bonsaimind.arbitrarylines.preferencepage"
+            name="ArbitraryLines">
+      </page>
+   </extension>
 
 </plugin>

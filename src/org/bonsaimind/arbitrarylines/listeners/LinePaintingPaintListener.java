@@ -9,12 +9,10 @@
 
 package org.bonsaimind.arbitrarylines.listeners;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.bonsaimind.arbitrarylines.lines.Direction;
+import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.lines.Line;
-import org.bonsaimind.arbitrarylines.lines.LocationType;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -30,8 +28,11 @@ public class LinePaintingPaintListener implements PaintListener {
 	/** The shared instance which should be used whenever possible. */
 	public static final LinePaintingPaintListener INSTANCE = new LinePaintingPaintListener();
 	
-	// TODO Remove this, as it is for debuggin and testing only.
-	private List<Line> lines = new ArrayList<Line>();
+	/** If the drawing is enabled. */
+	private boolean enabled = true;
+	
+	/** The locally cached {@link List} of {@link Line}s to draw. */
+	private List<Line> lines = null;
 	
 	/**
 	 * Creates a new instance of {@link LinePaintingPaintListener}.
@@ -39,11 +40,7 @@ public class LinePaintingPaintListener implements PaintListener {
 	public LinePaintingPaintListener() {
 		super();
 		
-		lines.add(new Line(Direction.HORIZONTAL, LocationType.CHARACTER, 25, 1, 0, 0xff0000ff));
-		lines.add(new Line(Direction.HORIZONTAL, LocationType.PIXEL, 32, 3, 0, 0x00ff00ff));
-		
-		lines.add(new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 6, 3, 0xffff0050));
-		lines.add(new Line(Direction.VERTICAL, LocationType.PIXEL, 32, 12, 0, 0xff00ffff));
+		updateFromPreferences();
 	}
 	
 	/**
@@ -51,6 +48,10 @@ public class LinePaintingPaintListener implements PaintListener {
 	 */
 	@Override
 	public void paintControl(PaintEvent event) {
+		if (!enabled) {
+			return;
+		}
+		
 		if (event.getSource() instanceof StyledText) {
 			// Store these values so that we can restore them later.
 			Color previousBackgroundColor = event.gc.getBackground();
@@ -73,6 +74,11 @@ public class LinePaintingPaintListener implements PaintListener {
 			event.gc.setForeground(previousForegroundColor);
 			event.gc.setAlpha(previousAlphaValue);
 		}
+	}
+	
+	public void updateFromPreferences() {
+		enabled = Activator.getDefault().getPreferences().isEnabled();
+		lines = Activator.getDefault().getPreferences().getLines();
 	}
 	
 	/**

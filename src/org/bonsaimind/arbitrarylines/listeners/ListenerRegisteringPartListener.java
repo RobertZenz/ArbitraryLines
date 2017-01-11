@@ -9,12 +9,8 @@
 
 package org.bonsaimind.arbitrarylines.listeners;
 
-import java.lang.reflect.Method;
-
-import org.bonsaimind.arbitrarylines.Activator;
-import org.eclipse.core.runtime.Status;
+import org.bonsaimind.arbitrarylines.Util;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -26,11 +22,6 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
 public class ListenerRegisteringPartListener implements IPartListener2 {
 	/** The shared instance which should be used whenever possible. */
 	public static final ListenerRegisteringPartListener INSTANCE = new ListenerRegisteringPartListener();
-	/**
-	 * The cached {@link Method} {@code getSourceViewer} of
-	 * {@link AbstractTextEditor}.
-	 */
-	private static Method getSourceViewerMethod = null;
 	
 	/**
 	 * Creates a new instance of {@link ListenerRegisteringPartListener}.
@@ -51,7 +42,7 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 			
 			if (part instanceof AbstractTextEditor) {
 				AbstractTextEditor textEditor = (AbstractTextEditor)part;
-				ITextViewer textViewer = getTextViewer(textEditor);
+				ITextViewer textViewer = Util.getTextViewer(textEditor);
 				
 				if (textViewer != null) {
 					textViewer.getTextWidget().addPaintListener(LinePaintingPaintListener.INSTANCE);
@@ -59,58 +50,6 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Gets the {@link ITextViewer} from the given {@link AbstractTextEditor}.
-	 * 
-	 * @param textEditor The {@link AbstractTextEditor} from which to get the
-	 *        {@link ITextViewer}.
-	 * @return The {@link ITextViewer}. {@code null} if it could not be
-	 *         returned.
-	 */
-	private static final ITextViewer getTextViewer(AbstractTextEditor textEditor) {
-		if (textEditor == null) {
-			return null;
-		}
-		
-		if (getSourceViewerMethod == null) {
-			if (!initGetSourceViewerMethod()) {
-				return null;
-			}
-		}
-		
-		try {
-			Object returnedValue = getSourceViewerMethod.invoke(textEditor);
-			
-			if (returnedValue instanceof ITextViewerExtension2) {
-				return (ITextViewer)returnedValue;
-			}
-		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Initializes the {@link #getSourceViewerMethod}.
-	 * 
-	 * @return {@code true} if it was successfully initialized.
-	 */
-	private static final boolean initGetSourceViewerMethod() {
-		try {
-			Method method = AbstractTextEditor.class.getDeclaredMethod("getSourceViewer");
-			method.setAccessible(true);
-			
-			getSourceViewerMethod = method;
-			
-			return true;
-		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
-		}
-		
-		return false;
 	}
 	
 	/**
