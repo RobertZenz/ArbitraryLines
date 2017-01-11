@@ -55,6 +55,7 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 				
 				if (textViewer != null) {
 					textViewer.getTextWidget().addPaintListener(LinePaintingPaintListener.INSTANCE);
+					textViewer.getTextWidget().redraw();
 				}
 			}
 		}
