@@ -14,7 +14,11 @@ import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
 import org.bonsaimind.arbitrarylines.lines.LocationType;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.preference.ColorSelector;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -49,39 +53,52 @@ public class LineEditingDialog extends Dialog {
 		
 		Composite container = (Composite)getDialogArea();
 		
-		container.setLayout(new GridLayout(2, false));
+		container.setLayout(new GridLayout(3, false));
 		
 		addCaptionLabel(container, "Direction");
 		directionCombo = new Combo(container, SWT.BORDER);
-		directionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		directionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		directionCombo.setItems(new String[] { Direction.HORIZONTAL.toString(), Direction.VERTICAL.toString() });
 		directionCombo.setText(line.getDirection().toString());
 		
 		addCaptionLabel(container, "Location Type");
 		locationTypeCombo = new Combo(container, SWT.BORDER);
-		locationTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		locationTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		locationTypeCombo.setItems(new String[] { LocationType.CHARACTER.toString(), LocationType.PIXEL.toString() });
 		locationTypeCombo.setText(line.getLocationType().toString());
 		
 		addCaptionLabel(container, "Location");
 		locationText = new Text(container, SWT.BORDER);
-		locationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		locationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		locationText.setText(Integer.toString(line.getLocation()));
 		
 		addCaptionLabel(container, "Thickness");
 		thicknessText = new Text(container, SWT.BORDER);
-		thicknessText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		thicknessText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		thicknessText.setText(Integer.toString(line.getThickness()));
 		
 		addCaptionLabel(container, "Offset");
 		offsetText = new Text(container, SWT.BORDER);
-		offsetText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		offsetText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		offsetText.setText(Integer.toString(line.getOffset()));
 		
 		addCaptionLabel(container, "Color (RGBA)");
 		colorText = new Text(container, SWT.BORDER);
 		colorText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		colorText.setText(Util.colorToString(line.getColorAsInt()));
+		ColorSelector colorSelector = new ColorSelector(container);
+		colorSelector.addListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				RGB rgb = (RGB)event.getNewValue();
+				
+				colorText.setText(Util.colorToString(
+						rgb.red << 24
+								| rgb.green << 16
+								| rgb.blue << 8
+								| 0xff));
+			}
+		});
 		
 		return content;
 	}
