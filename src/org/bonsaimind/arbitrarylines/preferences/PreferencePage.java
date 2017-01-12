@@ -224,7 +224,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		GridData gd_btnMoveDown = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_btnMoveDown.widthHint = 96;
 		btnMoveDown.setLayoutData(gd_btnMoveDown);
-		btnMoveDown.setText("Mode down");
+		btnMoveDown.setText("Move down");
 		btnMoveDown.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
