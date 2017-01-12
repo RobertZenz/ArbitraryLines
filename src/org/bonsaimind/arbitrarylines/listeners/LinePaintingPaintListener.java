@@ -54,9 +54,10 @@ public class LinePaintingPaintListener implements PaintListener {
 		
 		if (event.getSource() instanceof StyledText) {
 			// Store these values so that we can restore them later.
+			int previousAlphaValue = event.gc.getAlpha();
 			Color previousBackgroundColor = event.gc.getBackground();
 			Color previousForegroundColor = event.gc.getForeground();
-			int previousAlphaValue = event.gc.getAlpha();
+			int previousLineWidth = event.gc.getLineWidth();
 			
 			StyledText styledText = (StyledText)event.getSource();
 			
@@ -70,9 +71,10 @@ public class LinePaintingPaintListener implements PaintListener {
 			}
 			
 			// Restore the previously stored values.
+			event.gc.setAlpha(previousAlphaValue);
 			event.gc.setBackground(previousBackgroundColor);
 			event.gc.setForeground(previousForegroundColor);
-			event.gc.setAlpha(previousAlphaValue);
+			event.gc.setLineWidth(previousLineWidth);
 		}
 	}
 	
@@ -103,67 +105,71 @@ public class LinePaintingPaintListener implements PaintListener {
 		// The -1 and +1 further down are fixing graphical artifacts when
 		// scrolling.
 		
-		int x = 0;
-		int y = 0;
-		int width = 0;
-		int height = 0;
+		int fromX = 0;
+		int fromY = 0;
+		int toX = 0;
+		int toY = 0;
+		
+		// The +1 is a cheap and stupid way of rounding up.
+		int thicknessOffset = (line.getThickness() + 1) / 2;
 		
 		switch (line.getDirection()) {
 			case HORIZONTAL:
 				switch (line.getLocationType()) {
 					case CHARACTER:
-						y = charHeight * line.getLocation();
+						fromY = charHeight * line.getLocation();
 						break;
 					
 					case PIXEL:
-						y = line.getLocation();
+						fromY = line.getLocation();
 						break;
 				}
 				
-				y = y + line.getOffset();
-				height = line.getThickness();
+				fromY = fromY + line.getOffset();
 				
 				// Check if we are inside the drawn bounds.
-				if ((styledText.getTopPixel() + drawnRegion.y) > (y + height)
-						|| (styledText.getTopPixel() + drawnRegion.y + drawnRegion.height) < y) {
+				if ((styledText.getTopPixel() + drawnRegion.y) > (fromY + thicknessOffset)
+						|| (styledText.getTopPixel() + drawnRegion.y + drawnRegion.height) < (fromY - thicknessOffset)) {
 					return;
 				}
 				
-				y = y - styledText.getTopPixel();
-				x = drawnRegion.x - 1;
-				width = drawnRegion.width + 1;
+				fromY = fromY - styledText.getTopPixel();
+				toY = fromY;
+				fromX = drawnRegion.x - 1;
+				toX = drawnRegion.x + drawnRegion.width + 1;
 				break;
 			
 			case VERTICAL:
 				switch (line.getLocationType()) {
 					case CHARACTER:
-						x = charWidth * line.getLocation();
+						fromX = charWidth * line.getLocation();
 						break;
 					
 					case PIXEL:
-						x = line.getLocation();
+						fromX = line.getLocation();
 						break;
 				}
 				
-				x = x + line.getOffset();
-				width = line.getThickness();
+				fromX = fromX + line.getOffset();
 				
 				// Check if we are inside the drawn bounds.
-				if ((styledText.getHorizontalPixel() + drawnRegion.x) > (x + width)
-						|| (styledText.getHorizontalPixel() + drawnRegion.x + drawnRegion.width) < x) {
+				if ((styledText.getHorizontalPixel() + drawnRegion.x) > (fromX + thicknessOffset)
+						|| (styledText.getHorizontalPixel() + drawnRegion.x + drawnRegion.width) < (fromX - thicknessOffset)) {
 					return;
 				}
 				
-				x = x - styledText.getHorizontalPixel();
-				y = drawnRegion.y - 1;
-				height = drawnRegion.height + 1;
+				fromX = fromX - styledText.getHorizontalPixel();
+				toX = fromX;
+				fromY = drawnRegion.y - 1;
+				toY = drawnRegion.y + drawnRegion.height + 1;
 				break;
 		}
 		
 		gc.setAlpha(line.getColor().getAlpha());
 		gc.setBackground(line.getColor());
 		gc.setForeground(line.getColor());
+		gc.setLineWidth(line.getThickness());
 		
-		gc.fillRectangle(x, y, width, height);
+		gc.drawLine(fromX, fromY, toX, toY);
 	}
 }
