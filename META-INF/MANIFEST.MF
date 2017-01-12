@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ArbitraryLines
-Bundle-SymbolicName: ArbitraryLines;singleton:=true
+Bundle-SymbolicName: org.bonsaimind.arbitrarylines;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.bonsaimind.arbitrarylines.Activator
 Bundle-Vendor: Robert 'Bobby' Zenz

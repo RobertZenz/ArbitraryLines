@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 	/** The Plugin ID. */
-	public static final String PLUGIN_ID = "ArbitraryLines";
+	public static final String PLUGIN_ID = "org.bonsaimind.arbitrarylines";
 	
 	/** The instance of the Plugin. */
 	private static Activator plugin;
