@@ -29,13 +29,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class LineEditingDialog extends Dialog {
+	private ColorSelector colorSelector = null;
 	private Text colorText = null;
 	private Combo directionCombo = null;
 	private Line line = null;
 	private Text locationText = null;
 	private Combo locationTypeCombo = null;
 	private Text offsetText = null;
-	private Text thicknessText = null;;
+	private Text thicknessText = null;
 	
 	public LineEditingDialog(Shell parentShell, Line line) {
 		super(parentShell);
@@ -86,7 +87,12 @@ public class LineEditingDialog extends Dialog {
 		colorText = new Text(container, SWT.BORDER);
 		colorText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		colorText.setText(Util.colorToString(line.getColorAsInt()));
-		ColorSelector colorSelector = new ColorSelector(container);
+		
+		colorSelector = new ColorSelector(container);
+		colorSelector.setColorValue(new RGB(
+				(line.getColorAsInt() >> 24) & 0xff,
+				(line.getColorAsInt() >> 16) & 0xff,
+				(line.getColorAsInt() >> 8) & 0xff));
 		colorSelector.addListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
