@@ -52,34 +52,34 @@ public class LineEditingDialog extends Dialog {
 		container.setLayout(new GridLayout(2, false));
 		
 		addCaptionLabel(container, "Direction");
-		directionCombo = new Combo(container, SWT.NONE);
+		directionCombo = new Combo(container, SWT.BORDER);
 		directionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		directionCombo.setItems(new String[] { Direction.HORIZONTAL.toString(), Direction.VERTICAL.toString() });
 		directionCombo.setText(line.getDirection().toString());
 		
 		addCaptionLabel(container, "Location Type");
-		locationTypeCombo = new Combo(container, SWT.NONE);
+		locationTypeCombo = new Combo(container, SWT.BORDER);
 		locationTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		locationTypeCombo.setItems(new String[] { LocationType.CHARACTER.toString(), LocationType.PIXEL.toString() });
 		locationTypeCombo.setText(line.getLocationType().toString());
 		
 		addCaptionLabel(container, "Location");
-		locationText = new Text(container, SWT.NONE);
+		locationText = new Text(container, SWT.BORDER);
 		locationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		locationText.setText(Integer.toString(line.getLocation()));
 		
 		addCaptionLabel(container, "Thickness");
-		thicknessText = new Text(container, SWT.NONE);
+		thicknessText = new Text(container, SWT.BORDER);
 		thicknessText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		thicknessText.setText(Integer.toString(line.getThickness()));
 		
 		addCaptionLabel(container, "Offset");
-		offsetText = new Text(container, SWT.NONE);
+		offsetText = new Text(container, SWT.BORDER);
 		offsetText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		offsetText.setText(Integer.toString(line.getOffset()));
 		
 		addCaptionLabel(container, "Color (RGBA)");
-		colorText = new Text(container, SWT.NONE);
+		colorText = new Text(container, SWT.BORDER);
 		colorText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		colorText.setText(Util.colorToString(line.getColorAsInt()));
 		
