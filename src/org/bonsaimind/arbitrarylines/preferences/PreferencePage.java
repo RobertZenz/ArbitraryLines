@@ -191,6 +191,65 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 			}
 		});
 		
+		Button btnMoveUp = new Button(composite, SWT.NONE);
+		GridData gd_btnMoveUp = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_btnMoveUp.widthHint = 96;
+		btnMoveUp.setLayoutData(gd_btnMoveUp);
+		btnMoveUp.setText("Move up");
+		btnMoveUp.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do.
+			}
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (table.getSelectionIndex() > 0) {
+					TableItem currentItem = table.getItem(table.getSelectionIndex());
+					TableItem aboveItem = table.getItem(table.getSelectionIndex() - 1);
+					
+					Object temp = currentItem.getData();
+					currentItem.setData(aboveItem.getData());
+					aboveItem.setData(temp);
+					
+					updateTableItem(currentItem);
+					updateTableItem(aboveItem);
+					
+					table.setSelection(table.getSelectionIndex() - 1);
+				}
+			}
+		});
+		
+		Button btnMoveDown = new Button(composite, SWT.NONE);
+		GridData gd_btnMoveDown = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_btnMoveDown.widthHint = 96;
+		btnMoveDown.setLayoutData(gd_btnMoveDown);
+		btnMoveDown.setText("Mode down");
+		btnMoveDown.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do.
+			}
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (table.getSelectionIndex() >= 0
+						&& table.getSelectionIndex() < table.getItemCount() - 1) {
+					TableItem currentItem = table.getItem(table.getSelectionIndex());
+					TableItem belowItem = table.getItem(table.getSelectionIndex() + 1);
+					
+					Object temp = currentItem.getData();
+					currentItem.setData(belowItem.getData());
+					belowItem.setData(temp);
+					
+					updateTableItem(currentItem);
+					updateTableItem(belowItem);
+					
+					table.setSelection(table.getSelectionIndex() + 1);
+				}
+			}
+		});
+		
 		updateValuesFromPreferences();
 		
 		return null;
