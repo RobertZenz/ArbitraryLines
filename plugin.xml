@@ -10,6 +10,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            category="org.eclipse.ui.preferencePages.GeneralTextEditor"
             class="org.bonsaimind.arbitrarylines.preferences.PreferencePage"
             id="org.bonsaimind.arbitrarylines.preferencepage"
             name="ArbitraryLines">
