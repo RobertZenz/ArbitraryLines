@@ -81,7 +81,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		grpLines.setText("Lines");
 		grpLines.setLayout(new GridLayout(2, false));
 		
-		table = new Table(grpLines, SWT.BORDER | SWT.SINGLE);
+		table = new Table(grpLines, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		table.addMouseListener(new org.eclipse.swt.events.MouseListener() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -134,10 +134,9 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		Button btnAdd = new Button(composite, SWT.NONE);
 		GridData gd_btnAdd = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_btnAdd.heightHint = 32;
 		gd_btnAdd.widthHint = 96;
 		btnAdd.setLayoutData(gd_btnAdd);
-		btnAdd.setText("Add");
+		btnAdd.setText("Add...");
 		btnAdd.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -156,9 +155,25 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 			}
 		});
 		
+		Button btnEdit = new Button(composite, SWT.NONE);
+		GridData gd_btnEdit = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_btnEdit.widthHint = 96;
+		btnEdit.setLayoutData(gd_btnEdit);
+		btnEdit.setText("Edit...");
+		btnEdit.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do.
+			}
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				editCurrentSelection();
+			}
+		});
+		
 		Button btnRemove = new Button(composite, SWT.NONE);
 		GridData gd_btnRemove = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_btnRemove.heightHint = 32;
 		gd_btnRemove.widthHint = 96;
 		btnRemove.setLayoutData(gd_btnRemove);
 		btnRemove.setText("Remove");
@@ -173,24 +188,6 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 				if (table.getSelectionIndex() >= 0) {
 					table.remove(table.getSelectionIndex());
 				}
-			}
-		});
-		
-		Button btnEdit = new Button(composite, SWT.NONE);
-		GridData gd_btnEdit = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_btnEdit.widthHint = 96;
-		gd_btnEdit.heightHint = 32;
-		btnEdit.setLayoutData(gd_btnEdit);
-		btnEdit.setText("Edit");
-		btnEdit.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Nothing to do.
-			}
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				editCurrentSelection();
 			}
 		});
 		
