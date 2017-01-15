@@ -71,10 +71,7 @@ public final class Util {
 	 * @return The well formatted hex string.
 	 */
 	public static String colorToString(int color) {
-		return addLeadingZero(Integer.toString((color >> 24) & 0xff, 16))
-				+ addLeadingZero(Integer.toString((color >> 16) & 0xff, 16))
-				+ addLeadingZero(Integer.toString((color >> 8) & 0xff, 16))
-				+ addLeadingZero(Integer.toString(color & 0xff, 16));
+		return String.format("%08x", color);
 	}
 	
 	/**
@@ -130,14 +127,6 @@ public final class Util {
 			}
 		}
 		
-	}
-	
-	private static final String addLeadingZero(String string) {
-		if (string.length() == 1) {
-			return "0" + string;
-		}
-		
-		return string;
 	}
 	
 	/**
