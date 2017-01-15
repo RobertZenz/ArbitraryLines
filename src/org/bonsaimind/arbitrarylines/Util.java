@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension2;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -71,10 +72,18 @@ public final class Util {
 	 * @return The well formatted hex string.
 	 */
 	public static String colorToString(int color) {
-		return addLeadingZero(Integer.toString((color >> 24) & 0xff, 16))
-				+ addLeadingZero(Integer.toString((color >> 16) & 0xff, 16))
-				+ addLeadingZero(Integer.toString((color >> 8) & 0xff, 16))
-				+ addLeadingZero(Integer.toString(color & 0xff, 16));
+		return String.format("%08x", color);
+	}
+	
+	/**
+	 * Turns the color into a hex string.
+	 * 
+	 * @param rgb The color as an RGB object.
+	 * @param alpha The alpha setting
+	 * @return The well formatted hex string.
+	 */
+	public static String colorToString(RGB rgb, int alpha) {
+		return String.format("%02x%02x%02x%02x", rgb.red, rgb.green, rgb.blue, alpha & 0xff);
 	}
 	
 	/**
@@ -130,14 +139,6 @@ public final class Util {
 			}
 		}
 		
-	}
-	
-	private static final String addLeadingZero(String string) {
-		if (string.length() == 1) {
-			return "0" + string;
-		}
-		
-		return string;
 	}
 	
 	/**
