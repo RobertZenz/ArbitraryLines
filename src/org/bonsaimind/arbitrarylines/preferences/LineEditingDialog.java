@@ -97,12 +97,7 @@ public class LineEditingDialog extends Dialog {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				RGB rgb = (RGB)event.getNewValue();
-				
-				colorText.setText(Util.colorToString(
-						rgb.red << 24
-								| rgb.green << 16
-								| rgb.blue << 8
-								| 0xff));
+				colorText.setText(Util.colorToString(rgb, 0xff));
 			}
 		});
 		
