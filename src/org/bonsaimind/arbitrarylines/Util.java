@@ -46,7 +46,7 @@ public final class Util {
 	 *        {@code RRGGBB} or {@code RRGGBBAA}.
 	 * @return The color as int value.
 	 */
-	public static int colorFromString(String string) {
+	public final static int colorFromString(String string) {
 		if (string == null || string.length() == 0 || string.length() > 8) {
 			return 0x000000ff;
 		}
@@ -71,7 +71,7 @@ public final class Util {
 	 * @param color The color as int value.
 	 * @return The well formatted hex string.
 	 */
-	public static String colorToString(int color) {
+	public final static String colorToString(int color) {
 		return String.format("%08x", Integer.valueOf(color));
 	}
 	
@@ -82,7 +82,7 @@ public final class Util {
 	 * @param alpha The alpha setting.
 	 * @return The well formatted hex string.
 	 */
-	public static String colorToString(RGB rgb, int alpha) {
+	public final static String colorToString(RGB rgb, int alpha) {
 		return String.format("%02x%02x%02x%02x",
 				Integer.valueOf(rgb.red),
 				Integer.valueOf(rgb.green),

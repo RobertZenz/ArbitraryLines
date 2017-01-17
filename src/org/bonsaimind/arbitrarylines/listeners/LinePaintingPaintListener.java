@@ -94,7 +94,7 @@ public class LinePaintingPaintListener implements PaintListener {
 	 * @param charWidth The width of one character.
 	 * @param charHeight The height of one character.
 	 */
-	private void paintLine(
+	private final void paintLine(
 			Line line,
 			GC gc,
 			Rectangle drawnRegion,
