@@ -62,7 +62,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		updateValuesFromPreferences();
 		
-		LinePaintingPaintListener.INSTANCE.updateFromPreferences();
+		LinePaintingPaintListener.updateFromPreferences();
 		Util.redrawAllEditors();
 		
 		return super.performOk();

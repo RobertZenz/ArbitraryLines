@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.lines.Line;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -25,22 +27,36 @@ import org.eclipse.swt.graphics.Rectangle;
  * lines.
  */
 public class LinePaintingPaintListener implements PaintListener {
-	/** The shared instance which should be used whenever possible. */
-	public static final LinePaintingPaintListener INSTANCE = new LinePaintingPaintListener();
-	
 	/** If the drawing is enabled. */
-	private boolean enabled = true;
+	private static boolean enabled = true;
 	
 	/** The locally cached {@link List} of {@link Line}s to draw. */
-	private List<Line> lines = null;
+	private static List<Line> lines = null;
+	
+	/** The {@link ITextViewerExtension5 folding TextViewer}, if any. */
+	private ITextViewerExtension5 foldingTextViewer = null;
 	
 	/**
 	 * Creates a new instance of {@link LinePaintingPaintListener}.
+	 * 
+	 * @param textViewer The "parent" {@link ITextViewer}.
 	 */
-	public LinePaintingPaintListener() {
+	public LinePaintingPaintListener(ITextViewer textViewer) {
 		super();
 		
+		if (textViewer instanceof ITextViewerExtension5) {
+			foldingTextViewer = (ITextViewerExtension5)textViewer;
+		}
+		
 		updateFromPreferences();
+	}
+	
+	/**
+	 * Updates all {@link LinePaintingPaintListener} to the new preferences.
+	 */
+	public static void updateFromPreferences() {
+		enabled = Activator.getDefault().getPreferences().isEnabled();
+		lines = Activator.getDefault().getPreferences().getLines();
 	}
 	
 	/**
@@ -78,11 +94,6 @@ public class LinePaintingPaintListener implements PaintListener {
 		}
 	}
 	
-	public void updateFromPreferences() {
-		enabled = Activator.getDefault().getPreferences().isEnabled();
-		lines = Activator.getDefault().getPreferences().getLines();
-	}
-	
 	/**
 	 * Paints the given {@link Line} into the given {@link GC}.
 	 * 
@@ -117,7 +128,19 @@ public class LinePaintingPaintListener implements PaintListener {
 			case HORIZONTAL:
 				switch (line.getLocationType()) {
 					case CHARACTER:
-						fromY = charHeight * line.getLocation();
+						if (foldingTextViewer != null) {
+							int widgetLine = foldingTextViewer.modelLine2WidgetLine(line.getLocation());
+							
+							if (widgetLine == -1) {
+								// The line is currently not being displayed
+								// because it has been folded.
+								return;
+							}
+							
+							fromY = charHeight * widgetLine;
+						} else {
+							fromY = charHeight * line.getLocation();
+						}
 						break;
 					
 					case PIXEL:

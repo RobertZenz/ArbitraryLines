@@ -45,7 +45,7 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 				ITextViewer textViewer = Util.getTextViewer(textEditor);
 				
 				if (textViewer != null) {
-					textViewer.getTextWidget().addPaintListener(LinePaintingPaintListener.INSTANCE);
+					textViewer.getTextWidget().addPaintListener(new LinePaintingPaintListener(textViewer));
 					textViewer.getTextWidget().redraw();
 				}
 			}
