@@ -18,6 +18,10 @@ import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -26,9 +30,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Text;
 
 public class LineEditingDialog extends Dialog {
+	private Slider alphaSlider = null;
 	private ColorSelector colorSelector = null;
 	private Text colorText = null;
 	private Combo directionCombo = null;
@@ -87,6 +93,18 @@ public class LineEditingDialog extends Dialog {
 		colorText = new Text(container, SWT.BORDER);
 		colorText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		colorText.setText(Util.colorToString(line.getColorAsInt()));
+		colorText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				int color = Util.colorFromString(colorText.getText());
+				
+				colorSelector.setColorValue(new RGB(
+						(color >> 24) & 0xff,
+						(color >> 16) & 0xff,
+						(color >> 8) & 0xff));
+				alphaSlider.setSelection(color & 0xff);
+			}
+		});
 		
 		colorSelector = new ColorSelector(container);
 		colorSelector.setColorValue(new RGB(
@@ -96,8 +114,31 @@ public class LineEditingDialog extends Dialog {
 		colorSelector.addListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
+				int color = Util.colorFromString(colorText.getText());
+				
 				RGB rgb = (RGB)event.getNewValue();
-				colorText.setText(Util.colorToString(rgb, 0xff));
+				colorText.setText(Util.colorToString(rgb, color & 0xff));
+			}
+		});
+		
+		addCaptionLabel(container, "Alpha");
+		alphaSlider = new Slider(container, SWT.NONE);
+		alphaSlider.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		alphaSlider.setMinimum(0);
+		alphaSlider.setMaximum(255);
+		alphaSlider.setSelection(line.getColorAsInt() & 0xff);
+		alphaSlider.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do.
+			}
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int color = Util.colorFromString(colorText.getText());
+				color = color & 0xffffff00 | alphaSlider.getSelection();
+				
+				colorText.setText(Util.colorToString(color));
 			}
 		});
 		
