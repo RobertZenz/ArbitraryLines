@@ -72,18 +72,22 @@ public final class Util {
 	 * @return The well formatted hex string.
 	 */
 	public static String colorToString(int color) {
-		return String.format("%08x", color);
+		return String.format("%08x", Integer.valueOf(color));
 	}
 	
 	/**
 	 * Turns the color into a hex string.
 	 * 
-	 * @param rgb The color as an RGB object.
-	 * @param alpha The alpha setting
+	 * @param rgb The color as an {@link RGB} object.
+	 * @param alpha The alpha setting.
 	 * @return The well formatted hex string.
 	 */
 	public static String colorToString(RGB rgb, int alpha) {
-		return String.format("%02x%02x%02x%02x", rgb.red, rgb.green, rgb.blue, alpha & 0xff);
+		return String.format("%02x%02x%02x%02x",
+				Integer.valueOf(rgb.red),
+				Integer.valueOf(rgb.green),
+				Integer.valueOf(rgb.blue),
+				Integer.valueOf(alpha & 0xff));
 	}
 	
 	/**
