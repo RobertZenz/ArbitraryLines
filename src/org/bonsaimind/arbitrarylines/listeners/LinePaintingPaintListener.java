@@ -20,6 +20,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Rectangle;
 
 /**
@@ -70,10 +71,9 @@ public class LinePaintingPaintListener implements PaintListener {
 		
 		if (event.getSource() instanceof StyledText) {
 			// Store these values so that we can restore them later.
-			int previousAlphaValue = event.gc.getAlpha();
-			Color previousBackgroundColor = event.gc.getBackground();
+			LineAttributes previousLineAttributes = event.gc.getLineAttributes();
 			Color previousForegroundColor = event.gc.getForeground();
-			int previousLineWidth = event.gc.getLineWidth();
+			int previousAlphaValue = event.gc.getAlpha();
 			
 			StyledText styledText = (StyledText)event.getSource();
 			
@@ -88,9 +88,8 @@ public class LinePaintingPaintListener implements PaintListener {
 			
 			// Restore the previously stored values.
 			event.gc.setAlpha(previousAlphaValue);
-			event.gc.setBackground(previousBackgroundColor);
 			event.gc.setForeground(previousForegroundColor);
-			event.gc.setLineWidth(previousLineWidth);
+			event.gc.setLineAttributes(previousLineAttributes);
 		}
 	}
 	
@@ -189,7 +188,6 @@ public class LinePaintingPaintListener implements PaintListener {
 		}
 		
 		gc.setAlpha(line.getColor().getAlpha());
-		gc.setBackground(line.getColor());
 		gc.setForeground(line.getColor());
 		gc.setLineWidth(line.getThickness());
 		
