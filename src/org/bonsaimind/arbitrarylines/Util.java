@@ -47,7 +47,7 @@ public final class Util {
 	 * @return The color as int value.
 	 */
 	public final static int colorFromString(String string) {
-		if (string == null || string.length() == 0 || string.length() > 8) {
+		if (string == null || string.length() == 0) {
 			return 0x000000ff;
 		}
 		
@@ -55,14 +55,22 @@ public final class Util {
 		
 		if (string.length() == 6) {
 			padded = string + "ff";
+		} else if (string.length() > 8) {
+			padded = string.substring(0, 8);
 		} else {
 			padded = "00000000".substring(0, 8 - string.length()) + string;
 		}
 		
-		return Integer.parseInt(padded.substring(0, 2), 16) << 24
-				| Integer.parseInt(padded.substring(2, 4), 16) << 16
-				| Integer.parseInt(padded.substring(4, 6), 16) << 8
-				| Integer.parseInt(padded.substring(6, 8), 16);
+		try {
+			return Integer.parseInt(padded.substring(0, 2), 16) << 24
+					| Integer.parseInt(padded.substring(2, 4), 16) << 16
+					| Integer.parseInt(padded.substring(4, 6), 16) << 8
+					| Integer.parseInt(padded.substring(6, 8), 16);
+		} catch (NumberFormatException e) {
+			// Ignore the exception, we do not need to log it or know that it
+			// happened, really.
+			return 0x000000ff;
+		}
 	}
 	
 	/**
@@ -83,6 +91,10 @@ public final class Util {
 	 * @return The well formatted hex string.
 	 */
 	public final static String colorToString(RGB rgb, int alpha) {
+		if (rgb == null) {
+			return "000000" + String.format("%02x", Integer.valueOf(alpha & 0xff));
+		}
+		
 		return String.format("%02x%02x%02x%02x",
 				Integer.valueOf(rgb.red),
 				Integer.valueOf(rgb.green),
