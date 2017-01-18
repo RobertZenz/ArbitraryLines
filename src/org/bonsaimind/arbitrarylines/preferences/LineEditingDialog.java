@@ -29,12 +29,12 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Text;
 
 public class LineEditingDialog extends Dialog {
-	private Slider alphaSlider = null;
+	private Scale alphaScale = null;
 	private ColorSelector colorSelector = null;
 	private Text colorText = null;
 	private Combo directionCombo = null;
@@ -102,7 +102,7 @@ public class LineEditingDialog extends Dialog {
 						(color >> 24) & 0xff,
 						(color >> 16) & 0xff,
 						(color >> 8) & 0xff));
-				alphaSlider.setSelection(color & 0xff);
+				alphaScale.setSelection(color & 0xff);
 			}
 		});
 		
@@ -122,12 +122,12 @@ public class LineEditingDialog extends Dialog {
 		});
 		
 		addCaptionLabel(container, "Alpha");
-		alphaSlider = new Slider(container, SWT.NONE);
-		alphaSlider.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		alphaSlider.setMinimum(0);
-		alphaSlider.setMaximum(255);
-		alphaSlider.setSelection(line.getColorAsInt() & 0xff);
-		alphaSlider.addSelectionListener(new SelectionListener() {
+		alphaScale = new Scale(container, SWT.NONE);
+		alphaScale.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		alphaScale.setMinimum(0);
+		alphaScale.setMaximum(255);
+		alphaScale.setSelection(line.getColorAsInt() & 0xff);
+		alphaScale.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// Nothing to do.
@@ -136,7 +136,7 @@ public class LineEditingDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int color = Util.colorFromString(colorText.getText());
-				color = color & 0xffffff00 | alphaSlider.getSelection();
+				color = color & 0xffffff00 | alphaScale.getSelection();
 				
 				colorText.setText(Util.colorToString(color));
 			}
