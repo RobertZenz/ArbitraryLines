@@ -38,7 +38,11 @@ public class Preferences {
 		preferenceStore.setDefault(PREFERENCE_NAME_LINES, lineToString(DEFAULT_LINE));
 	}
 	
-	private static final Line lineFromString(String lineAsString) {
+	protected Preferences() {
+		super();
+	}
+	
+	protected static final Line lineFromString(String lineAsString) {
 		if (lineAsString == null || lineAsString.length() == 0) {
 			return null;
 		}
@@ -55,7 +59,7 @@ public class Preferences {
 				LineStyle.valueOf(splitted[6]));
 	}
 	
-	private static final String lineToString(Line line) {
+	protected static final String lineToString(Line line) {
 		if (line == null) {
 			return "";
 		}
