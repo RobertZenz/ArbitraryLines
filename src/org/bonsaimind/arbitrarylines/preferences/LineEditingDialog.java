@@ -12,6 +12,7 @@ package org.bonsaimind.arbitrarylines.preferences;
 import org.bonsaimind.arbitrarylines.Util;
 import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
+import org.bonsaimind.arbitrarylines.lines.LineStyle;
 import org.bonsaimind.arbitrarylines.lines.LocationType;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.ColorSelector;
@@ -180,7 +181,7 @@ public class LineEditingDialog extends Dialog {
 		
 		int color = Util.colorFromString(colorText.getText());
 		
-		line = new Line(direction, locationType, location, thickness, offset, color);
+		line = new Line(direction, locationType, location, thickness, offset, color, LineStyle.SOLID);
 		
 		super.okPressed();
 	}

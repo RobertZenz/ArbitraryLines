@@ -190,6 +190,7 @@ public class LinePaintingPaintListener implements PaintListener {
 		gc.setAlpha(line.getColor().getAlpha());
 		gc.setForeground(line.getColor());
 		gc.setLineWidth(line.getThickness());
+		gc.setLineStyle(line.getStyle().getSwtStyle());
 		
 		gc.drawLine(fromX, fromY, toX, toY);
 	}
