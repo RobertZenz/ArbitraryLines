@@ -12,16 +12,10 @@ package org.bonsaimind.arbitrarylines.lines;
 import org.eclipse.swt.SWT;
 
 public enum LineStyle {
-	SOLID(SWT.LINE_SOLID), DASH(SWT.LINE_DASH), DOT(SWT.LINE_DOT), DASHDOT(SWT.LINE_DASHDOT), DASHDOTDOT(SWT.LINE_DASHDOTDOT);
+	DASH(SWT.LINE_DASH), DASHDOT(SWT.LINE_DASHDOT), DASHDOTDOT(SWT.LINE_DASHDOTDOT), DOT(SWT.LINE_DOT), SOLID(SWT.LINE_SOLID);
 	
-	private static final String[] styleStrings = new String[DASHDOTDOT.ordinal() + 1];
+	private static final String[] styleStrings = new String[] { SOLID.toString(), DASH.toString(), DOT.toString(), DASHDOT.toString(), DASHDOTDOT.toString() };
 	private final int swtStyle;
-	
-	static {
-		for (LineStyle type : LineStyle.values()) {
-			styleStrings[type.ordinal()] = type.toString();
-		}
-	}
 	
 	private LineStyle(int swtEquivalent) {
 		swtStyle = swtEquivalent;
