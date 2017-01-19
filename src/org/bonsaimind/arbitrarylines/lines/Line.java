@@ -53,6 +53,42 @@ public class Line {
 		this.style = style;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Line other = (Line)obj;
+		if (colorAsInt != other.colorAsInt) {
+			return false;
+		}
+		if (direction != other.direction) {
+			return false;
+		}
+		if (location != other.location) {
+			return false;
+		}
+		if (locationType != other.locationType) {
+			return false;
+		}
+		if (offset != other.offset) {
+			return false;
+		}
+		if (style != other.style) {
+			return false;
+		}
+		if (thickness != other.thickness) {
+			return false;
+		}
+		return true;
+	}
+	
 	public Color getColor() {
 		return color;
 	}
@@ -83,5 +119,19 @@ public class Line {
 	
 	public int getThickness() {
 		return thickness;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + colorAsInt;
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + location;
+		result = prime * result + ((locationType == null) ? 0 : locationType.hashCode());
+		result = prime * result + offset;
+		result = prime * result + ((style == null) ? 0 : style.hashCode());
+		result = prime * result + thickness;
+		return result;
 	}
 }
