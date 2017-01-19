@@ -21,6 +21,7 @@ public class Line {
 	private int location = -1;
 	private LocationType locationType = null;
 	private int offset = 0;
+	private LineStyle style = null;
 	private int thickness = 1;
 	
 	/**
@@ -32,8 +33,9 @@ public class Line {
 	 * @param thickness The thickness.
 	 * @param offset The additional offset, always in pixel.
 	 * @param color The color, in {@code RGBA} format.
+	 * @param style The line style, from {@code LineStyle}
 	 */
-	public Line(Direction direction, LocationType locationType, int location, int thickness, int offset, int color) {
+	public Line(Direction direction, LocationType locationType, int location, int thickness, int offset, int color, LineStyle style) {
 		super();
 		
 		this.direction = direction;
@@ -48,6 +50,7 @@ public class Line {
 				(color >> 16) & 0xff,
 				(color >> 8) & 0xff,
 				color & 0xff);
+		this.style = style;
 	}
 	
 	public Color getColor() {
@@ -72,6 +75,10 @@ public class Line {
 	
 	public int getOffset() {
 		return offset;
+	}
+	
+	public LineStyle getStyle() {
+		return style;
 	}
 	
 	public int getThickness() {

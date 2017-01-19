@@ -17,11 +17,12 @@ import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.Util;
 import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
+import org.bonsaimind.arbitrarylines.lines.LineStyle;
 import org.bonsaimind.arbitrarylines.lines.LocationType;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 public class Preferences {
-	public static final Line DEFAULT_LINE = new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 1, 0, 0x3465a4cc);
+	public static final Line DEFAULT_LINE = new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 1, 0, 0x3465a4cc, LineStyle.SOLID);
 	private static final String LINES_SEPARATOR = ";";
 	private static final String PREFERENCE_NAME_ENABLED = Activator.PLUGIN_ID + ".enabled";
 	private static final String PREFERENCE_NAME_LINES = Activator.PLUGIN_ID + ".lines";
@@ -50,7 +51,8 @@ public class Preferences {
 				Integer.parseInt(splitted[2]),
 				Integer.parseInt(splitted[3]),
 				Integer.parseInt(splitted[4]),
-				Util.colorFromString(splitted[5]));
+				Util.colorFromString(splitted[5]),
+				LineStyle.valueOf(splitted[6]));
 	}
 	
 	private static final String lineToString(Line line) {
@@ -65,6 +67,7 @@ public class Preferences {
 		lineAsString.append(line.getThickness()).append(VALUES_SEPARATOR);
 		lineAsString.append(line.getOffset()).append(VALUES_SEPARATOR);
 		lineAsString.append(Util.colorToString(line.getColorAsInt())).append(VALUES_SEPARATOR);
+		lineAsString.append(line.getStyle().toString()).append(VALUES_SEPARATOR);
 		
 		return lineAsString.toString();
 	}
