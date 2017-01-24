@@ -16,7 +16,7 @@ import java.util.List;
 import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.Util;
 import org.bonsaimind.arbitrarylines.lines.Line;
-import org.bonsaimind.arbitrarylines.listeners.LinePaintingPaintListener;
+import org.bonsaimind.arbitrarylines.lines.LinePainter;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -62,7 +62,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		updateValuesFromPreferences();
 		
-		LinePaintingPaintListener.updateFromPreferences();
+		LinePainter.updateFromPreferences();
 		Util.redrawAllEditors();
 		
 		return super.performOk();
