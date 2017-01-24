@@ -30,12 +30,31 @@ public class TestPreferences extends Preferences {
 	
 	/**
 	 * Performs a test if the {@link Line} could be read back from a
-	 * {@link String}.
+	 * {@link String} as it was saved in version 1.0.
 	 * <p>
 	 * This is a test to make sure that old preferences can always be read.
 	 */
 	@Test
-	public void testLineFromString() {
+	public void testLineFromString_v_1_0() {
+		String oldLine = "VERTICAL,PIXEL,80,10,10,ffeeddcc,DASH,";
+		Line line = new Line(
+				Direction.VERTICAL,
+				LocationType.PIXEL,
+				80,
+				10,
+				10,
+				0xffeeddcc,
+				LineStyle.DASH);
+		
+		Assert.assertEquals(line, lineFromString(oldLine));
+	}
+	
+	/**
+	 * Performs a sanity test on {@link Preferences#lineFromString(String)} and
+	 * {@link Preferences#lineToString(Line)}.
+	 */
+	@Test
+	public void testLineFromToString() {
 		String line = "VERTICAL,PIXEL,80,10,10,ffeeddcc,DASH,";
 		
 		Assert.assertEquals(line, lineToString(lineFromString(line)));
