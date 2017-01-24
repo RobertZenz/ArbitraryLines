@@ -2,12 +2,26 @@ ArbitraryLines
 ===============
 
 
-AbritraryLines is an Eclipse plugin which allows you to configure and draw
-arbitrary lines in the editor.
+AbritraryLines is an Eclipse plugin which allows you to configure arbitrary
+lines in the editor. You can configure:
+
+ * Direction (vertical or horizontal)
+ * Location (pixel or character offset)
+ * Thickness
+ * Color (including transparency)
+ * Offset
 
 
 License
 -------
 
-ArbiraryLines is licensed under the Eclipse Public License 1.0.
+ArbitraryLines is licensed under the Eclipse Public License 1.0.
+
+
+Screenshot
+----------
+
+Here is the test configuration together with the settings dialog:
+
+![](screenshots/test.png)
 
