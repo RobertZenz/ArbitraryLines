@@ -20,6 +20,7 @@ import org.bonsaimind.arbitrarylines.lines.LinePainter;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -28,16 +29,29 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 	private Button btnEnableArbitrarylines = null;
+	private Button chckCharacterOverrideActive;
+	private Label lblCharacterOverrideActive;
+	private Label lblCharacterOverrideInformation;
+	private Label lblCharacterSizeOverride;
+	private Label lblOverrideCharacterHeight;
+	private Label lblOverrideCharacterWidth;
+	private Link linkCharacterOverrideArbitraryLines;
+	private Link linkCharacterOverrideEclipse;
 	private Preferences preferences = null;
 	private Table table = null;
+	private Text txtOverrideCharacterHeight;
+	private Text txtOverrideCharacterWidth;
 	
 	public PreferencePage() {
 		super();
@@ -60,12 +74,35 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		preferences.setLines(lines);
 		
+		preferences.setCharSizeOverrideActive(chckCharacterOverrideActive.getSelection());
+		
+		try {
+			preferences.setCharHeight(Float.parseFloat(txtOverrideCharacterHeight.getText()));
+		} catch (NumberFormatException e) {
+			// Ignore the exception.
+		}
+		
+		try {
+			preferences.setCharWidth(Float.parseFloat(txtOverrideCharacterWidth.getText()));
+		} catch (NumberFormatException e) {
+			// Ignore the exception.
+		}
+		
 		updateValuesFromPreferences();
 		
 		LinePainter.updateFromPreferences();
 		Util.redrawAllEditors();
 		
 		return super.performOk();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			toggleAdvancedConfigurationVisible(false);
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	@Override
@@ -250,6 +287,59 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 			}
 		});
 		
+		Group grpAdvancedConfiguration = new Group(grpLines, SWT.NONE);
+		grpAdvancedConfiguration.setLayout(new GridLayout(2, false));
+		grpAdvancedConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		grpAdvancedConfiguration.setText("Advanced Configuration");
+		
+		lblCharacterOverrideActive = new Label(grpAdvancedConfiguration, SWT.NONE);
+		lblCharacterOverrideActive.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
+		lblCharacterOverrideActive.setText("Attention: The character size override is active!");
+		
+		Button btnShowAdvancedConfiguration = new Button(grpAdvancedConfiguration, SWT.TOGGLE);
+		btnShowAdvancedConfiguration.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btnShowAdvancedConfiguration.setText("Show advanced configuration");
+		btnShowAdvancedConfiguration.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean selected = ((Button)e.widget).getSelection();
+				
+				toggleAdvancedConfigurationVisible(selected);
+			}
+		});
+		
+		lblCharacterOverrideInformation = new Label(grpAdvancedConfiguration, SWT.NONE);
+		lblCharacterOverrideInformation.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
+		lblCharacterOverrideInformation.setText(
+				"The \"character size override\" allows you to define a custom\ncharacter size which will be used for calculating the position\nof the lines. This can be used if the font measuring of SWT\nis off. For more information, please see the following links.");
+		
+		linkCharacterOverrideArbitraryLines = new Link(grpAdvancedConfiguration, SWT.NONE);
+		linkCharacterOverrideArbitraryLines.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+		linkCharacterOverrideArbitraryLines.setText("<a href=\"https://gitlab.com/RobertZenz/ArbitraryLines/issues/8\">ArbitraryLines#8, Location of painted lines is off</a>");
+		
+		linkCharacterOverrideEclipse = new Link(grpAdvancedConfiguration, SWT.NONE);
+		linkCharacterOverrideEclipse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+		linkCharacterOverrideEclipse
+				.setText("<a href=\"https://bugs.eclipse.org/bugs/show_bug.cgi?id=508600\">Eclipse#508600, The average character width of a font is not integer</a>");
+		
+		lblCharacterSizeOverride = new Label(grpAdvancedConfiguration, SWT.NONE);
+		lblCharacterSizeOverride.setText("Activate character size override");
+		
+		chckCharacterOverrideActive = new Button(grpAdvancedConfiguration, SWT.CHECK);
+		chckCharacterOverrideActive.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
+		lblOverrideCharacterWidth = new Label(grpAdvancedConfiguration, SWT.NONE);
+		lblOverrideCharacterWidth.setText("Override character width");
+		
+		txtOverrideCharacterWidth = new Text(grpAdvancedConfiguration, SWT.BORDER);
+		txtOverrideCharacterWidth.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		lblOverrideCharacterHeight = new Label(grpAdvancedConfiguration, SWT.NONE);
+		lblOverrideCharacterHeight.setText("Override character height");
+		
+		txtOverrideCharacterHeight = new Text(grpAdvancedConfiguration, SWT.BORDER);
+		txtOverrideCharacterHeight.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
 		updateValuesFromPreferences();
 		
 		return null;
@@ -261,6 +351,11 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		
 		btnEnableArbitrarylines.setSelection(true);
 		updateTable(Arrays.asList(Preferences.DEFAULT_LINE));
+		
+		lblCharacterOverrideActive.setVisible(false);
+		chckCharacterOverrideActive.setSelection(true);
+		txtOverrideCharacterHeight.setText(Float.toString(0.0f));
+		txtOverrideCharacterWidth.setText(Float.toString(0.0f));
 	}
 	
 	private void editCurrentSelection() {
@@ -273,6 +368,31 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 				updateTableItem(selectedItem);
 			}
 		}
+	}
+	
+	private void toggleAdvancedConfigurationVisible(boolean visible) {
+		lblCharacterOverrideInformation.setVisible(visible);
+		((GridData)lblCharacterOverrideInformation.getLayoutData()).exclude = !visible;
+		linkCharacterOverrideArbitraryLines.setVisible(visible);
+		((GridData)linkCharacterOverrideArbitraryLines.getLayoutData()).exclude = !visible;
+		linkCharacterOverrideEclipse.setVisible(visible);
+		((GridData)linkCharacterOverrideEclipse.getLayoutData()).exclude = !visible;
+		lblCharacterSizeOverride.setVisible(visible);
+		((GridData)lblCharacterSizeOverride.getLayoutData()).exclude = !visible;
+		chckCharacterOverrideActive.setVisible(visible);
+		((GridData)chckCharacterOverrideActive.getLayoutData()).exclude = !visible;
+		lblOverrideCharacterWidth.setVisible(visible);
+		((GridData)lblOverrideCharacterWidth.getLayoutData()).exclude = !visible;
+		txtOverrideCharacterWidth.setVisible(visible);
+		((GridData)txtOverrideCharacterWidth.getLayoutData()).exclude = !visible;
+		lblOverrideCharacterHeight.setVisible(visible);
+		((GridData)lblOverrideCharacterHeight.getLayoutData()).exclude = !visible;
+		txtOverrideCharacterHeight.setVisible(visible);
+		((GridData)txtOverrideCharacterHeight.getLayoutData()).exclude = !visible;
+		
+		lblCharacterOverrideInformation.getParent().pack();
+		lblCharacterOverrideInformation.getParent().getParent().pack();
+		lblCharacterOverrideInformation.getParent().getParent().getParent().pack();
 	}
 	
 	private void updateTable(Iterable<Line> lines) {
@@ -300,5 +420,10 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		btnEnableArbitrarylines.setSelection(preferences.isEnabled());
 		
 		updateTable(preferences.getLines());
+		
+		lblCharacterOverrideActive.setVisible(preferences.isCharSizeOverrideActive());
+		chckCharacterOverrideActive.setSelection(preferences.isCharSizeOverrideActive());
+		txtOverrideCharacterHeight.setText(Float.toString(preferences.getCharHeight()));
+		txtOverrideCharacterWidth.setText(Float.toString(preferences.getCharWidth()));
 	}
 }
