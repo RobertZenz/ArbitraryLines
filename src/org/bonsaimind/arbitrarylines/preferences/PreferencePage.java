@@ -297,7 +297,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		lblCharacterOverrideActive.setText("Attention: The character size override is active!");
 		
 		Button btnShowAdvancedConfiguration = new Button(grpAdvancedConfiguration, SWT.TOGGLE);
-		btnShowAdvancedConfiguration.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btnShowAdvancedConfiguration.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		btnShowAdvancedConfiguration.setText("Show advanced configuration");
 		btnShowAdvancedConfiguration.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -353,6 +353,8 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		updateTable(Arrays.asList(Preferences.DEFAULT_LINE));
 		
 		lblCharacterOverrideActive.setVisible(false);
+		((GridData)lblCharacterOverrideActive.getLayoutData()).exclude = true;
+		
 		chckCharacterOverrideActive.setSelection(true);
 		txtOverrideCharacterHeight.setText(Float.toString(0.0f));
 		txtOverrideCharacterWidth.setText(Float.toString(0.0f));
@@ -422,6 +424,12 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		updateTable(preferences.getLines());
 		
 		lblCharacterOverrideActive.setVisible(preferences.isCharSizeOverrideActive());
+		((GridData)lblCharacterOverrideActive.getLayoutData()).exclude = !preferences.isCharSizeOverrideActive();
+		
+		lblCharacterOverrideActive.getParent().pack();
+		lblCharacterOverrideActive.getParent().getParent().pack();
+		lblCharacterOverrideActive.getParent().getParent().getParent().pack();
+		
 		chckCharacterOverrideActive.setSelection(preferences.isCharSizeOverrideActive());
 		txtOverrideCharacterHeight.setText(Float.toString(preferences.getCharHeight()));
 		txtOverrideCharacterWidth.setText(Float.toString(preferences.getCharWidth()));
