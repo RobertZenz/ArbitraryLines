@@ -355,7 +355,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		lblCharacterOverrideActive.setVisible(false);
 		((GridData)lblCharacterOverrideActive.getLayoutData()).exclude = true;
 		
-		chckCharacterOverrideActive.setSelection(true);
+		chckCharacterOverrideActive.setSelection(false);
 		txtOverrideCharacterHeight.setText(Float.toString(0.0f));
 		txtOverrideCharacterWidth.setText(Float.toString(0.0f));
 	}
