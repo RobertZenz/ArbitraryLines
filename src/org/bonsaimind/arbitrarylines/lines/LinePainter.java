@@ -67,7 +67,7 @@ public final class LinePainter {
 		Rectangle clipping = gc.getClipping();
 		
 		int lineHeight = styledText.getLineHeight();
-		int charWidth = gc.getAdvanceWidth('B');
+		int charWidth = gc.getFontMetrics().getAverageCharWidth();
 		
 		for (Line line : lines) {
 			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, lineHeight);
