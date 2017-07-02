@@ -40,6 +40,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 	private Button btnEnableArbitrarylines = null;
+	private Button btnShowAdvancedConfiguration = null;
 	private Button chckCharacterOverrideActive;
 	private Label lblCharacterOverrideActive;
 	private Label lblCharacterOverrideInformation;
@@ -99,7 +100,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			toggleAdvancedConfigurationVisible(false);
+			toggleAdvancedConfigurationVisible(btnShowAdvancedConfiguration.getSelection());
 		}
 		
 		super.setVisible(visible);
@@ -296,7 +297,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		lblCharacterOverrideActive.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		lblCharacterOverrideActive.setText("Attention: The character size override is active!");
 		
-		Button btnShowAdvancedConfiguration = new Button(grpAdvancedConfiguration, SWT.TOGGLE);
+		btnShowAdvancedConfiguration = new Button(grpAdvancedConfiguration, SWT.TOGGLE);
 		btnShowAdvancedConfiguration.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		btnShowAdvancedConfiguration.setText("Show advanced configuration");
 		btnShowAdvancedConfiguration.addSelectionListener(new SelectionAdapter() {
