@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.listeners.LinePaintingPaintListener;
+import org.bonsaimind.arbitrarylines.preferences.Preferences;
 import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
@@ -25,6 +26,15 @@ import org.eclipse.swt.graphics.Rectangle;
  * lines.
  */
 public final class LinePainter {
+	/** The override for the height of one character. */
+	private static float charHeightOverride = 0.0f;
+	
+	/** If the override of the character size is active. */
+	private static boolean charSizeOverrideActive = false;
+	
+	/** The override for the width of one character. */
+	private static float charWidthOverride = 0.0f;
+	
 	/** If the drawing is enabled. */
 	private static boolean enabled = true;
 	
@@ -66,11 +76,19 @@ public final class LinePainter {
 		// Now let us draw all lines.
 		Rectangle clipping = gc.getClipping();
 		
-		float lineHeight = styledText.getLineHeight();
-		float charWidth = gc.getFontMetrics().getAverageCharWidth();
+		float charHeight = 0.0f;
+		float charWidth = 0.0f;
+		
+		if (charSizeOverrideActive) {
+			charHeight = charHeightOverride;
+			charWidth = charWidthOverride;
+		} else {
+			charHeight = styledText.getLineHeight();
+			charWidth = gc.getFontMetrics().getAverageCharWidth();
+		}
 		
 		for (Line line : lines) {
-			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, lineHeight);
+			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, charHeight);
 		}
 		
 		// Restore the previously stored values.
@@ -83,8 +101,14 @@ public final class LinePainter {
 	 * Updates all {@link LinePaintingPaintListener} to the new preferences.
 	 */
 	public static void updateFromPreferences() {
-		enabled = Activator.getDefault().getPreferences().isEnabled();
-		lines = Activator.getDefault().getPreferences().getLines();
+		Preferences preferences = Activator.getDefault().getPreferences();
+		
+		enabled = preferences.isEnabled();
+		lines = preferences.getLines();
+		
+		charSizeOverrideActive = preferences.isCharSizeOverrideActive();
+		charHeightOverride = preferences.getCharHeight();
+		charWidthOverride = preferences.getCharWidth();
 	}
 	
 	/**

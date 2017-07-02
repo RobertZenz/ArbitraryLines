@@ -24,6 +24,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 public class Preferences {
 	public static final Line DEFAULT_LINE = new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 1, 0, 0x3465a4cc, LineStyle.SOLID);
 	private static final String LINES_SEPARATOR = ";";
+	private static final String PREFERENCE_NAME_CHAR_HEIGHT = Activator.PLUGIN_ID + ".char.height";
+	private static final String PREFERENCE_NAME_CHAR_SIZE_OVERRIDE = Activator.PLUGIN_ID + ".char.size_override";
+	private static final String PREFERENCE_NAME_CHAR_WIDTH = Activator.PLUGIN_ID + ".char.width";
 	private static final String PREFERENCE_NAME_ENABLED = Activator.PLUGIN_ID + ".enabled";
 	private static final String PREFERENCE_NAME_LINES = Activator.PLUGIN_ID + ".lines";
 	private static final String VALUES_SEPARATOR = ",";
@@ -34,6 +37,9 @@ public class Preferences {
 		
 		this.preferenceStore = preferenceStore;
 		
+		preferenceStore.setDefault(PREFERENCE_NAME_CHAR_HEIGHT, 0.0f);
+		preferenceStore.setDefault(PREFERENCE_NAME_CHAR_SIZE_OVERRIDE, false);
+		preferenceStore.setDefault(PREFERENCE_NAME_CHAR_WIDTH, 0.0f);
 		preferenceStore.setDefault(PREFERENCE_NAME_ENABLED, true);
 		preferenceStore.setDefault(PREFERENCE_NAME_LINES, lineToString(DEFAULT_LINE));
 	}
@@ -76,6 +82,14 @@ public class Preferences {
 		return lineAsString.toString();
 	}
 	
+	public float getCharHeight() {
+		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_HEIGHT);
+	}
+	
+	public float getCharWidth() {
+		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_WIDTH);
+	}
+	
 	public List<Line> getLines() {
 		String linesAsString = preferenceStore.getString(PREFERENCE_NAME_LINES);
 		
@@ -96,6 +110,10 @@ public class Preferences {
 		return lines;
 	}
 	
+	public boolean isCharSizeOverrideActive() {
+		return preferenceStore.getBoolean(PREFERENCE_NAME_CHAR_SIZE_OVERRIDE);
+	}
+	
 	public boolean isEnabled() {
 		return preferenceStore.getBoolean(PREFERENCE_NAME_ENABLED);
 	}
@@ -103,6 +121,18 @@ public class Preferences {
 	public void restoreDefaults() {
 		preferenceStore.setToDefault(PREFERENCE_NAME_ENABLED);
 		preferenceStore.setToDefault(PREFERENCE_NAME_LINES);
+	}
+	
+	public void setCharHeight(float charHeight) {
+		preferenceStore.setValue(PREFERENCE_NAME_CHAR_HEIGHT, charHeight);
+	}
+	
+	public void setCharSizeOverrideActive(boolean active) {
+		preferenceStore.setValue(PREFERENCE_NAME_CHAR_SIZE_OVERRIDE, active);
+	}
+	
+	public void setCharWidth(float charWidth) {
+		preferenceStore.setValue(PREFERENCE_NAME_CHAR_WIDTH, charWidth);
 	}
 	
 	public void setEnabled(boolean enabled) {
