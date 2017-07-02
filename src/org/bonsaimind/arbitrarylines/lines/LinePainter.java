@@ -66,8 +66,8 @@ public final class LinePainter {
 		// Now let us draw all lines.
 		Rectangle clipping = gc.getClipping();
 		
-		int lineHeight = styledText.getLineHeight();
-		int charWidth = gc.getFontMetrics().getAverageCharWidth();
+		float lineHeight = styledText.getLineHeight();
+		float charWidth = gc.getFontMetrics().getAverageCharWidth();
 		
 		for (Line line : lines) {
 			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, lineHeight);
@@ -106,8 +106,8 @@ public final class LinePainter {
 			GC gc,
 			Line line,
 			Rectangle drawnRegion,
-			int charWidth,
-			int charHeight) {
+			float charWidth,
+			float charHeight) {
 		
 		// The -1 and +1 further down are fixing graphical artifacts when
 		// scrolling.
@@ -133,9 +133,9 @@ public final class LinePainter {
 								return;
 							}
 							
-							fromY = charHeight * widgetLine;
+							fromY = Math.round(charHeight * widgetLine);
 						} else {
-							fromY = charHeight * line.getLocation();
+							fromY = Math.round(charHeight * line.getLocation());
 						}
 						break;
 					
@@ -161,7 +161,7 @@ public final class LinePainter {
 			case VERTICAL:
 				switch (line.getLocationType()) {
 					case CHARACTER:
-						fromX = charWidth * line.getLocation();
+						fromX = Math.round(charWidth * line.getLocation());
 						break;
 					
 					case PIXEL:
