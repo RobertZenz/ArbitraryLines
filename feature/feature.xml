@@ -2,7 +2,7 @@
 <feature
       id="org.bonsaimind.arbitrarylines"
       label="ArbitraryLines"
-      version="1.0.0.qualifier"
+      version="1.0.1.qualifier"
       provider-name="Robert &apos;Bobby&apos; Zenz">
 
    <description url="https://gitlab.com/RobertZenz/ArbitraryLines">

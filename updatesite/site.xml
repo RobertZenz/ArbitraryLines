@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.bonsaimind.arbitrarylines_1.0.0.201701270941.jar" id="org.bonsaimind.arbitrarylines" version="1.0.0.201701270941"/>
+   <feature url="features/org.bonsaimind.arbitrarylines_1.0.1.201707032102.jar" id="org.bonsaimind.arbitrarylines" version="1.0.1.201707032102" patch="true"/>
 </site>

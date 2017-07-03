@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+1.0.1
+-----
+
+ * Changed to more accurate way of calculating the size of a character.
+ * #8, Provided a way to override the measures size of a character, to work
+   around a SWT bug.
+
+
 1.0
 ---
 
