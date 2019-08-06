@@ -2,7 +2,7 @@ ArbitraryLines
 ===============
 
 
-AbritraryLines is an Eclipse plugin which allows you to configure arbitrary
+ArbitraryLines is an Eclipse plugin which allows you to configure arbitrary
 lines in the editor. You can configure:
 
  * Direction (vertical or horizontal)
