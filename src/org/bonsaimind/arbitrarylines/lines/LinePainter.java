@@ -168,7 +168,7 @@ public final class LinePainter {
 						break;
 				}
 				
-				fromY = fromY + line.getOffset();
+				fromY = fromY + line.getOffset() + styledText.getTopMargin();
 				
 				// Check if we are inside the drawn bounds.
 				if ((styledText.getTopPixel() + drawnRegion.y) > (fromY + thicknessOffset)
@@ -193,7 +193,7 @@ public final class LinePainter {
 						break;
 				}
 				
-				fromX = fromX + line.getOffset();
+				fromX = fromX + line.getOffset() + styledText.getLeftMargin();
 				
 				// Check if we are inside the drawn bounds.
 				if ((styledText.getHorizontalPixel() + drawnRegion.x) > (fromX + thicknessOffset)
