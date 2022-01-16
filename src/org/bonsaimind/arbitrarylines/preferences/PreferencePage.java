@@ -78,13 +78,13 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		preferences.setCharSizeOverrideActive(chckCharacterOverrideActive.getSelection());
 		
 		try {
-			preferences.setCharHeight(Float.parseFloat(txtOverrideCharacterHeight.getText()));
+			preferences.setCharHeight(Double.parseDouble(txtOverrideCharacterHeight.getText()));
 		} catch (NumberFormatException e) {
 			// Ignore the exception.
 		}
 		
 		try {
-			preferences.setCharWidth(Float.parseFloat(txtOverrideCharacterWidth.getText()));
+			preferences.setCharWidth(Double.parseDouble(txtOverrideCharacterWidth.getText()));
 		} catch (NumberFormatException e) {
 			// Ignore the exception.
 		}
@@ -361,8 +361,8 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		((GridData)lblCharacterOverrideActive.getLayoutData()).exclude = true;
 		
 		chckCharacterOverrideActive.setSelection(false);
-		txtOverrideCharacterHeight.setText(Float.toString(0.0f));
-		txtOverrideCharacterWidth.setText(Float.toString(0.0f));
+		txtOverrideCharacterHeight.setText(Double.toString(0.0d));
+		txtOverrideCharacterWidth.setText(Double.toString(0.0d));
 	}
 	
 	private void editCurrentSelection() {
@@ -437,7 +437,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		lblCharacterOverrideActive.getParent().getParent().getParent().pack();
 		
 		chckCharacterOverrideActive.setSelection(preferences.isCharSizeOverrideActive());
-		txtOverrideCharacterHeight.setText(Float.toString(preferences.getCharHeight()));
-		txtOverrideCharacterWidth.setText(Float.toString(preferences.getCharWidth()));
+		txtOverrideCharacterHeight.setText(Double.toString(preferences.getCharHeight()));
+		txtOverrideCharacterWidth.setText(Double.toString(preferences.getCharWidth()));
 	}
 }

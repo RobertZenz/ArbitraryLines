@@ -84,12 +84,12 @@ public class Preferences {
 		return lineAsString.toString();
 	}
 	
-	public float getCharHeight() {
-		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_HEIGHT);
+	public double getCharHeight() {
+		return preferenceStore.getDouble(PREFERENCE_NAME_CHAR_HEIGHT);
 	}
 	
-	public float getCharWidth() {
-		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_WIDTH);
+	public double getCharWidth() {
+		return preferenceStore.getDouble(PREFERENCE_NAME_CHAR_WIDTH);
 	}
 	
 	public List<Line> getLines() {
@@ -125,7 +125,7 @@ public class Preferences {
 		preferenceStore.setToDefault(PREFERENCE_NAME_LINES);
 	}
 	
-	public void setCharHeight(float charHeight) {
+	public void setCharHeight(double charHeight) {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_HEIGHT, charHeight);
 	}
 	
@@ -133,7 +133,7 @@ public class Preferences {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_SIZE_OVERRIDE, active);
 	}
 	
-	public void setCharWidth(float charWidth) {
+	public void setCharWidth(double charWidth) {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_WIDTH, charWidth);
 	}
 	
