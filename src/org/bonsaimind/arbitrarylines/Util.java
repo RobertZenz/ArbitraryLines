@@ -129,7 +129,7 @@ public final class Util {
 				return (ITextViewer)returnedValue;
 			}
 		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
 		}
 		
 		return null;
@@ -180,7 +180,7 @@ public final class Util {
 			
 			return true;
 		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
 		}
 		
 		return false;

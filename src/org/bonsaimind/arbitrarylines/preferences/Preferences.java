@@ -19,6 +19,7 @@ import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
 import org.bonsaimind.arbitrarylines.lines.LineStyle;
 import org.bonsaimind.arbitrarylines.lines.LocationType;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 public class Preferences {
@@ -55,15 +56,21 @@ public class Preferences {
 		
 		String[] splitted = lineAsString.split(VALUES_SEPARATOR);
 		
-		return new Line(
-				Direction.valueOf(splitted[0]),
-				LocationType.valueOf(splitted[1]),
-				Integer.parseInt(splitted[2]),
-				Integer.parseInt(splitted[3]),
-				Integer.parseInt(splitted[4]),
-				Util.colorFromString(splitted[5]),
-				LineStyle.valueOf(splitted[6]),
-				splitted.length >= 8 ? Boolean.parseBoolean(splitted[7]) : true);
+		try {
+			return new Line(
+					Direction.valueOf(splitted[0]),
+					LocationType.valueOf(splitted[1]),
+					Integer.parseInt(splitted[2]),
+					Integer.parseInt(splitted[3]),
+					Integer.parseInt(splitted[4]),
+					Util.colorFromString(splitted[5]),
+					LineStyle.valueOf(splitted[6]),
+					splitted.length >= 8 ? Boolean.parseBoolean(splitted[7]) : true);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+			
+			return null;
+		}
 	}
 	
 	protected static final String lineToString(Line line) {
