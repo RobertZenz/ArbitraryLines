@@ -9,17 +9,21 @@
 
 package org.bonsaimind.arbitrarylines.lines;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.bonsaimind.arbitrarylines.Activator;
 import org.bonsaimind.arbitrarylines.listeners.LinePaintingPaintListener;
 import org.bonsaimind.arbitrarylines.preferences.Preferences;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
  * {@link LinePainter} is the main drawing class, which handles drawing the
@@ -27,21 +31,29 @@ import org.eclipse.swt.graphics.Rectangle;
  */
 public final class LinePainter {
 	/** The override for the height of one character. */
-	private static float charHeightOverride = 0.0f;
+	private static double charHeightOverride = 0.0d;
 	
 	/** If the override of the character size is active. */
 	private static boolean charSizeOverrideActive = false;
 	
 	/** The override for the width of one character. */
-	private static float charWidthOverride = 0.0f;
+	private static double charWidthOverride = 0.0d;
 	
 	/** If the drawing is enabled. */
 	private static boolean enabled = true;
+	
+	/**
+	 * The cached {@link Method} {@code getSourceViewer} of
+	 * {@link AbstractTextEditor}.
+	 */
+	private static Method getAverageCharacterWidthMethod = null;
 	
 	/** The locally cached {@link List} of {@link Line}s to draw. */
 	private static List<Line> lines = null;
 	
 	static {
+		initGetAverageCharacterWidthMethod();
+		
 		updateFromPreferences();
 	}
 	
@@ -76,19 +88,21 @@ public final class LinePainter {
 		// Now let us draw all lines.
 		Rectangle clipping = gc.getClipping();
 		
-		float charHeight = 0.0f;
-		float charWidth = 0.0f;
+		double charHeight = 0.0d;
+		double charWidth = 0.0d;
 		
 		if (charSizeOverrideActive) {
 			charHeight = charHeightOverride;
 			charWidth = charWidthOverride;
 		} else {
 			charHeight = styledText.getLineHeight();
-			charWidth = gc.getFontMetrics().getAverageCharWidth();
+			charWidth = getAverageCharacterWidth(gc.getFontMetrics());
 		}
 		
 		for (Line line : lines) {
-			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, charHeight);
+			if (line.getVisible()) {
+				paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, charHeight);
+			}
 		}
 		
 		// Restore the previously stored values.
@@ -112,6 +126,37 @@ public final class LinePainter {
 	}
 	
 	/**
+	 * Gets the varage character width from the given {@link FontMetrics}.
+	 * 
+	 * @param fontMetrics The {@link FontMetrics} to use.
+	 * @return The average character width.
+	 */
+	private static final double getAverageCharacterWidth(FontMetrics fontMetrics) {
+		if (getAverageCharacterWidthMethod != null) {
+			try {
+				return ((Double)getAverageCharacterWidthMethod.invoke(fontMetrics)).doubleValue();
+			} catch (Throwable th) {
+				Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
+			}
+		}
+		
+		return fontMetrics.getAverageCharWidth();
+	}
+	
+	/**
+	 * Initializes the {@link #getAverageCharacterWidthMethod}.
+	 */
+	private static final void initGetAverageCharacterWidthMethod() {
+		try {
+			Method method = FontMetrics.class.getDeclaredMethod("getAverageCharacterWidth");
+			
+			getAverageCharacterWidthMethod = method;
+		} catch (Throwable th) {
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
+		}
+	}
+	
+	/**
 	 * Paints the given {@link Line} into the given {@link GC}.
 	 * 
 	 * @param foldingTextViewer The {@link ITextViewerExtension5 folding
@@ -130,8 +175,8 @@ public final class LinePainter {
 			GC gc,
 			Line line,
 			Rectangle drawnRegion,
-			float charWidth,
-			float charHeight) {
+			double charWidth,
+			double charHeight) {
 		
 		// The -1 and +1 further down are fixing graphical artifacts when
 		// scrolling.
@@ -157,9 +202,9 @@ public final class LinePainter {
 								return;
 							}
 							
-							fromY = Math.round(charHeight * widgetLine);
+							fromY = (int)Math.round(charHeight * widgetLine);
 						} else {
-							fromY = Math.round(charHeight * line.getLocation());
+							fromY = (int)Math.round(charHeight * line.getLocation());
 						}
 						break;
 					
@@ -185,7 +230,7 @@ public final class LinePainter {
 			case VERTICAL:
 				switch (line.getLocationType()) {
 					case CHARACTER:
-						fromX = Math.round(charWidth * line.getLocation());
+						fromX = (int)Math.round(charWidth * line.getLocation());
 						break;
 					
 					case PIXEL:
@@ -208,7 +253,7 @@ public final class LinePainter {
 				break;
 		}
 		
-		gc.setAlpha(line.getColor().getAlpha());
+		gc.setAlpha(line.getAlpha());
 		gc.setForeground(line.getColor());
 		gc.setLineWidth(line.getThickness());
 		gc.setLineStyle(line.getStyle().getSwtStyle());

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines.tests;
+package org.bonsaimind.arbitrarylines.preferences;
 
 import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
@@ -23,8 +23,8 @@ import org.junit.Test;
  * We must extend {@link Preferences} to receive access to the conversion
  * methods.
  */
-public class TestPreferences extends Preferences {
-	public TestPreferences() {
+public class PreferencesTests extends Preferences {
+	public PreferencesTests() {
 		super();
 	}
 	
@@ -44,7 +44,30 @@ public class TestPreferences extends Preferences {
 				10,
 				10,
 				0xffeeddcc,
-				LineStyle.DASH);
+				LineStyle.DASH,
+				true);
+		
+		Assert.assertEquals(line, lineFromString(oldLine));
+	}
+	
+	/**
+	 * Performs a test if the {@link Line} could be read back from a
+	 * {@link String} as it was saved in version 1.1.
+	 * <p>
+	 * This is a test to make sure that old preferences can always be read.
+	 */
+	@Test
+	public void testLineFromString_v_1_1() {
+		String oldLine = "VERTICAL,PIXEL,80,10,10,ffeeddcc,DASH,false";
+		Line line = new Line(
+				Direction.VERTICAL,
+				LocationType.PIXEL,
+				80,
+				10,
+				10,
+				0xffeeddcc,
+				LineStyle.DASH,
+				false);
 		
 		Assert.assertEquals(line, lineFromString(oldLine));
 	}
@@ -55,7 +78,7 @@ public class TestPreferences extends Preferences {
 	 */
 	@Test
 	public void testLineFromToString() {
-		String line = "VERTICAL,PIXEL,80,10,10,ffeeddcc,DASH,";
+		String line = "VERTICAL,PIXEL,80,10,10,ffeeddcc,DASH,true,";
 		
 		Assert.assertEquals(line, lineToString(lineFromString(line)));
 	}
@@ -73,7 +96,8 @@ public class TestPreferences extends Preferences {
 				10,
 				10,
 				0xffeeddcc,
-				LineStyle.DASH);
+				LineStyle.DASH,
+				true);
 		
 		Assert.assertEquals(line, lineFromString(lineToString(line)));
 	}

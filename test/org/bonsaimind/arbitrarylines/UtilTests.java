@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines.tests;
+package org.bonsaimind.arbitrarylines;
 
 import org.bonsaimind.arbitrarylines.Util;
 import org.eclipse.swt.graphics.RGB;
@@ -17,7 +17,7 @@ import org.junit.Test;
 /**
  * Tests the {@link Util} class.
  */
-public class TestUtil {
+public class UtilTests {
 	/**
 	 * Tests the {@link Util#colorFromString(String)} method.
 	 */

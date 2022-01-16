@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Color;
  * Represents one line.
  */
 public class Line {
+	private int alpha = 0xff;
 	private Color color = null;
 	private int colorAsInt = -1;
 	private Direction direction = null;
@@ -23,6 +24,7 @@ public class Line {
 	private int offset = 0;
 	private LineStyle style = null;
 	private int thickness = 1;
+	private boolean visible = true;
 	
 	/**
 	 * Creates a new instance of {@link Line}.
@@ -34,8 +36,9 @@ public class Line {
 	 * @param offset The additional offset, always in pixel.
 	 * @param color The color, in {@code RGBA} format.
 	 * @param style The line style, from {@code LineStyle}
+	 * @param visible If the line should be visible.
 	 */
-	public Line(Direction direction, LocationType locationType, int location, int thickness, int offset, int color, LineStyle style) {
+	public Line(Direction direction, LocationType locationType, int location, int thickness, int offset, int color, LineStyle style, boolean visible) {
 		super();
 		
 		this.direction = direction;
@@ -48,9 +51,10 @@ public class Line {
 				null,
 				(color >> 24) & 0xff,
 				(color >> 16) & 0xff,
-				(color >> 8) & 0xff,
-				color & 0xff);
+				(color >> 8) & 0xff);
+		this.alpha = color & 0xff;
 		this.style = style;
+		this.visible = visible;
 	}
 	
 	@Override
@@ -86,7 +90,14 @@ public class Line {
 		if (thickness != other.thickness) {
 			return false;
 		}
+		if (visible != other.visible) {
+			return false;
+		}
 		return true;
+	}
+	
+	public int getAlpha() {
+		return alpha;
 	}
 	
 	public Color getColor() {
@@ -121,6 +132,10 @@ public class Line {
 		return thickness;
 	}
 	
+	public boolean getVisible() {
+		return visible;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,6 +147,7 @@ public class Line {
 		result = prime * result + offset;
 		result = prime * result + ((style == null) ? 0 : style.hashCode());
 		result = prime * result + thickness;
+		result = prime * result + (visible ? 1231 : 1237);
 		return result;
 	}
 }

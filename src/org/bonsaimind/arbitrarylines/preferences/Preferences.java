@@ -19,10 +19,11 @@ import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
 import org.bonsaimind.arbitrarylines.lines.LineStyle;
 import org.bonsaimind.arbitrarylines.lines.LocationType;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 public class Preferences {
-	public static final Line DEFAULT_LINE = new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 1, 0, 0x3465a4cc, LineStyle.SOLID);
+	public static final Line DEFAULT_LINE = new Line(Direction.VERTICAL, LocationType.CHARACTER, 80, 1, 0, 0x3465a4cc, LineStyle.SOLID, true);
 	private static final String LINES_SEPARATOR = ";";
 	private static final String PREFERENCE_NAME_CHAR_HEIGHT = Activator.PLUGIN_ID + ".char.height";
 	private static final String PREFERENCE_NAME_CHAR_SIZE_OVERRIDE = Activator.PLUGIN_ID + ".char.size_override";
@@ -55,14 +56,21 @@ public class Preferences {
 		
 		String[] splitted = lineAsString.split(VALUES_SEPARATOR);
 		
-		return new Line(
-				Direction.valueOf(splitted[0]),
-				LocationType.valueOf(splitted[1]),
-				Integer.parseInt(splitted[2]),
-				Integer.parseInt(splitted[3]),
-				Integer.parseInt(splitted[4]),
-				Util.colorFromString(splitted[5]),
-				LineStyle.valueOf(splitted[6]));
+		try {
+			return new Line(
+					Direction.valueOf(splitted[0]),
+					LocationType.valueOf(splitted[1]),
+					Integer.parseInt(splitted[2]),
+					Integer.parseInt(splitted[3]),
+					Integer.parseInt(splitted[4]),
+					Util.colorFromString(splitted[5]),
+					LineStyle.valueOf(splitted[6]),
+					splitted.length >= 8 ? Boolean.parseBoolean(splitted[7]) : true);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+			
+			return null;
+		}
 	}
 	
 	protected static final String lineToString(Line line) {
@@ -78,16 +86,17 @@ public class Preferences {
 		lineAsString.append(line.getOffset()).append(VALUES_SEPARATOR);
 		lineAsString.append(Util.colorToString(line.getColorAsInt())).append(VALUES_SEPARATOR);
 		lineAsString.append(line.getStyle().toString()).append(VALUES_SEPARATOR);
+		lineAsString.append(line.getVisible()).append(VALUES_SEPARATOR);
 		
 		return lineAsString.toString();
 	}
 	
-	public float getCharHeight() {
-		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_HEIGHT);
+	public double getCharHeight() {
+		return preferenceStore.getDouble(PREFERENCE_NAME_CHAR_HEIGHT);
 	}
 	
-	public float getCharWidth() {
-		return preferenceStore.getFloat(PREFERENCE_NAME_CHAR_WIDTH);
+	public double getCharWidth() {
+		return preferenceStore.getDouble(PREFERENCE_NAME_CHAR_WIDTH);
 	}
 	
 	public List<Line> getLines() {
@@ -123,7 +132,7 @@ public class Preferences {
 		preferenceStore.setToDefault(PREFERENCE_NAME_LINES);
 	}
 	
-	public void setCharHeight(float charHeight) {
+	public void setCharHeight(double charHeight) {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_HEIGHT, charHeight);
 	}
 	
@@ -131,7 +140,7 @@ public class Preferences {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_SIZE_OVERRIDE, active);
 	}
 	
-	public void setCharWidth(float charWidth) {
+	public void setCharWidth(double charWidth) {
 		preferenceStore.setValue(PREFERENCE_NAME_CHAR_WIDTH, charWidth);
 	}
 	

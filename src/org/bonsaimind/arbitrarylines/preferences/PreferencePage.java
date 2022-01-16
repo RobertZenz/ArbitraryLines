@@ -78,13 +78,13 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		preferences.setCharSizeOverrideActive(chckCharacterOverrideActive.getSelection());
 		
 		try {
-			preferences.setCharHeight(Float.parseFloat(txtOverrideCharacterHeight.getText()));
+			preferences.setCharHeight(Double.parseDouble(txtOverrideCharacterHeight.getText()));
 		} catch (NumberFormatException e) {
 			// Ignore the exception.
 		}
 		
 		try {
-			preferences.setCharWidth(Float.parseFloat(txtOverrideCharacterWidth.getText()));
+			preferences.setCharWidth(Double.parseDouble(txtOverrideCharacterWidth.getText()));
 		} catch (NumberFormatException e) {
 			// Ignore the exception.
 		}
@@ -165,6 +165,10 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		TableColumn tblclmnColor = new TableColumn(table, SWT.NONE);
 		tblclmnColor.setWidth(60);
 		tblclmnColor.setText("Color (RGBA)");
+		
+		TableColumn tblclmnVisible = new TableColumn(table, SWT.NONE);
+		tblclmnVisible.setWidth(40);
+		tblclmnVisible.setText("Visible");
 		
 		Composite composite = new Composite(grpLines, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
@@ -357,8 +361,8 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		((GridData)lblCharacterOverrideActive.getLayoutData()).exclude = true;
 		
 		chckCharacterOverrideActive.setSelection(false);
-		txtOverrideCharacterHeight.setText(Float.toString(0.0f));
-		txtOverrideCharacterWidth.setText(Float.toString(0.0f));
+		txtOverrideCharacterHeight.setText(Double.toString(0.0d));
+		txtOverrideCharacterWidth.setText(Double.toString(0.0d));
 	}
 	
 	private void editCurrentSelection() {
@@ -417,6 +421,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		item.setText(3, Integer.toString(line.getThickness()));
 		item.setText(4, Integer.toString(line.getOffset()));
 		item.setText(5, Util.colorToString(line.getColorAsInt()));
+		item.setText(6, Boolean.toString(line.getVisible()));
 	}
 	
 	private void updateValuesFromPreferences() {
@@ -432,7 +437,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		lblCharacterOverrideActive.getParent().getParent().getParent().pack();
 		
 		chckCharacterOverrideActive.setSelection(preferences.isCharSizeOverrideActive());
-		txtOverrideCharacterHeight.setText(Float.toString(preferences.getCharHeight()));
-		txtOverrideCharacterWidth.setText(Float.toString(preferences.getCharWidth()));
+		txtOverrideCharacterHeight.setText(Double.toString(preferences.getCharHeight()));
+		txtOverrideCharacterWidth.setText(Double.toString(preferences.getCharWidth()));
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
@@ -128,7 +129,7 @@ public final class Util {
 				return (ITextViewer)returnedValue;
 			}
 		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
 		}
 		
 		return null;
@@ -142,6 +143,14 @@ public final class Util {
 			for (IWorkbenchPage page : window.getPages()) {
 				for (IEditorReference reference : page.getEditorReferences()) {
 					IEditorPart part = reference.getEditor(false);
+					
+					if (part instanceof MultiPageEditorPart) {
+						MultiPageEditorPart multiPageEditor = (MultiPageEditorPart)part;
+						
+						if (multiPageEditor.getSelectedPage() instanceof IEditorPart) {
+							part = (IEditorPart)multiPageEditor.getSelectedPage();
+						}
+					}
 					
 					if (part instanceof AbstractTextEditor) {
 						AbstractTextEditor textEditor = (AbstractTextEditor)part;
@@ -171,7 +180,7 @@ public final class Util {
 			
 			return true;
 		} catch (Throwable th) {
-			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage()));
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, th.getMessage(), th));
 		}
 		
 		return false;
