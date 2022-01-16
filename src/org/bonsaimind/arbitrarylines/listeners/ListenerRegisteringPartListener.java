@@ -14,6 +14,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
@@ -48,6 +49,11 @@ public class ListenerRegisteringPartListener implements IPartListener2 {
 					textViewer.getTextWidget().addPaintListener(new LinePaintingPaintListener(textViewer));
 					textViewer.getTextWidget().redraw();
 				}
+			} else if (part instanceof MultiPageEditorPart) {
+				MultiPageEditorPart multiPageEditor = (MultiPageEditorPart)part;
+				
+				multiPageEditor.addPageChangedListener(new ListenerRegisteringPageChangeListener()
+						.registerListener(multiPageEditor.getSelectedPage()));
 			}
 		}
 	}
