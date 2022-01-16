@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines.tests;
+package org.bonsaimind.arbitrarylines.preferences;
 
 import org.bonsaimind.arbitrarylines.lines.Direction;
 import org.bonsaimind.arbitrarylines.lines.Line;
@@ -23,8 +23,8 @@ import org.junit.Test;
  * We must extend {@link Preferences} to receive access to the conversion
  * methods.
  */
-public class TestPreferences extends Preferences {
-	public TestPreferences() {
+public class PreferencesTests extends Preferences {
+	public PreferencesTests() {
 		super();
 	}
 	

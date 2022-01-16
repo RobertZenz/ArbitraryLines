@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.bonsaimind.arbitrarylines.tests;
+package org.bonsaimind.arbitrarylines.lines;
 
 import org.bonsaimind.arbitrarylines.lines.LineStyle;
 import org.eclipse.swt.SWT;
@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Tests the {@link LineStyle} enum.
  */
-public class TestLineStyle {
+public class LineStyleTests {
 	
 	/**
 	 * Tests the {@link LineStyle#getStyleStrings()} method.
