@@ -16,6 +16,9 @@ import org.eclipse.ui.PlatformUI;
  * The {@link ListenerRegisteringRunnable} is adding listeners to all windows.
  */
 public class ListenerRegisteringRunnable implements Runnable {
+	/** The shared instance which should be used whenever possible. */
+	public static final ListenerRegisteringRunnable INSTANCE = new ListenerRegisteringRunnable();
+	
 	/**
 	 * Creates a new instance of {@link ListenerRegisteringRunnable}.
 	 */

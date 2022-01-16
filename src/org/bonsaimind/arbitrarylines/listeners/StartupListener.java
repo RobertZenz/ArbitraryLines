@@ -29,6 +29,6 @@ public class StartupListener implements IStartup {
 	 */
 	@Override
 	public void earlyStartup() {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new ListenerRegisteringRunnable());
+		PlatformUI.getWorkbench().getDisplay().asyncExec(ListenerRegisteringRunnable.INSTANCE);
 	}
 }
