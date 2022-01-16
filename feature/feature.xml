@@ -16,6 +16,10 @@
       [Enter License Description here.]
    </license>
 
+   <url>
+      <update label="ArbitraryLines" url="https://robertzenz.github.io/ArbitraryLines/updatesite/"/>
+   </url>
+
    <plugin
          id="org.bonsaimind.arbitrarylines"
          download-size="0"
