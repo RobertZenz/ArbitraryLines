@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.1.0
+-----
+
+ * Fixed compatibility back to Luna.
+ * #4 Added flag for visibility of single lines.
+ * #8 If available, new font metrics methods are being used on newer Eclipse
+   versions.
+ * #9 Fixed that the lines would not be visible in all editors.
+
 
 1.0.1
 -----
