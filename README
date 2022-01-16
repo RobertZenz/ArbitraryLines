@@ -1,7 +1,6 @@
 ArbitraryLines
 ===============
 
-
 ArbitraryLines is an Eclipse plugin which allows you to configure arbitrary
 lines in the editor. You can configure:
 
@@ -10,6 +9,7 @@ lines in the editor. You can configure:
  * Thickness
  * Color (including transparency)
  * Offset
+ * Visibility
 
 
 License
