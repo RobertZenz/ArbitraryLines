@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Color;
  * Represents one line.
  */
 public class Line {
+	private int alpha = 0xff;
 	private Color color = null;
 	private int colorAsInt = -1;
 	private Direction direction = null;
@@ -48,8 +49,8 @@ public class Line {
 				null,
 				(color >> 24) & 0xff,
 				(color >> 16) & 0xff,
-				(color >> 8) & 0xff,
-				color & 0xff);
+				(color >> 8) & 0xff);
+		this.alpha = color & 0xff;
 		this.style = style;
 	}
 	
@@ -87,6 +88,10 @@ public class Line {
 			return false;
 		}
 		return true;
+	}
+	
+	public int getAlpha() {
+		return alpha;
 	}
 	
 	public Color getColor() {

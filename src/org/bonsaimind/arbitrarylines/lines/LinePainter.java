@@ -208,7 +208,7 @@ public final class LinePainter {
 				break;
 		}
 		
-		gc.setAlpha(line.getColor().getAlpha());
+		gc.setAlpha(line.getAlpha());
 		gc.setForeground(line.getColor());
 		gc.setLineWidth(line.getThickness());
 		gc.setLineStyle(line.getStyle().getSwtStyle());
