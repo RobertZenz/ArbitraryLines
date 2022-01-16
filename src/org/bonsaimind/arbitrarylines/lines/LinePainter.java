@@ -88,7 +88,9 @@ public final class LinePainter {
 		}
 		
 		for (Line line : lines) {
-			paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, charHeight);
+			if (line.getVisible()) {
+				paintLine(foldingTextViewer, styledText, gc, line, clipping, charWidth, charHeight);
+			}
 		}
 		
 		// Restore the previously stored values.

@@ -166,6 +166,10 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		tblclmnColor.setWidth(60);
 		tblclmnColor.setText("Color (RGBA)");
 		
+		TableColumn tblclmnVisible = new TableColumn(table, SWT.NONE);
+		tblclmnVisible.setWidth(40);
+		tblclmnVisible.setText("Visible");
+		
 		Composite composite = new Composite(grpLines, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		composite.setLayout(new GridLayout(1, false));
@@ -417,6 +421,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 		item.setText(3, Integer.toString(line.getThickness()));
 		item.setText(4, Integer.toString(line.getOffset()));
 		item.setText(5, Util.colorToString(line.getColorAsInt()));
+		item.setText(6, Boolean.toString(line.getVisible()));
 	}
 	
 	private void updateValuesFromPreferences() {

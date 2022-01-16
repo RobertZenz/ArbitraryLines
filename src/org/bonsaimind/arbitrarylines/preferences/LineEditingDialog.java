@@ -26,6 +26,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -44,6 +45,7 @@ public class LineEditingDialog extends Dialog {
 	private Combo locationTypeCombo = null;
 	private Text offsetText = null;
 	private Text thicknessText = null;
+	private Button visibleButton = null;
 	
 	public LineEditingDialog(Shell parentShell, Line line) {
 		super(parentShell);
@@ -143,6 +145,11 @@ public class LineEditingDialog extends Dialog {
 			}
 		});
 		
+		addCaptionLabel(container, "Visible");
+		visibleButton = new Button(container, SWT.CHECK);
+		visibleButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		visibleButton.setSelection(line.getVisible());
+		
 		return content;
 	}
 	
@@ -181,7 +188,9 @@ public class LineEditingDialog extends Dialog {
 		
 		int color = Util.colorFromString(colorText.getText());
 		
-		line = new Line(direction, locationType, location, thickness, offset, color, LineStyle.SOLID);
+		boolean visible = visibleButton.getSelection();
+		
+		line = new Line(direction, locationType, location, thickness, offset, color, LineStyle.SOLID, visible);
 		
 		super.okPressed();
 	}
